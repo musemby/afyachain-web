@@ -1,0 +1,27 @@
+<div
+  ba-panel
+  ba-panel-title="Create a Batch"
+  ba-panel-class="with-scroll">
+    <form>
+      <div class="form-group">
+        <label for="name">Unit Count</label>
+        <input type="number" ng-model="batchData.unitCount" class="form-control" id="unitCount">
+      </div>
+      <div class="form-group">
+        <label for="participant">Brand</label>
+        <ui-select ng-model="batchData.brand"
+                   class="btn-group bootstrap-select form-control"
+                   ng-disabled="false"
+                   append-to-body="true"
+                   search-enabled="false">
+          <ui-select-match placeholder="Brand">
+            <span> {{$select.selected.name}}</span>
+          </ui-select-match>
+          <ui-select-choices repeat="brand in brandChoices | filter: $select.search">
+            <span ng-bind-html="brand.name"></span>
+          </ui-select-choices>
+        </ui-select>
+      </div>
+      <button type="submit" ng-click="createBatch()" class="btn btn-danger">Create Batch</button>
+    </form>
+</div>

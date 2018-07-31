@@ -1,0 +1,29 @@
+<div ba-panel ba-panel-title="{{ title }}" ba-panel-class="with-scroll">
+    <form>
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" ng-model="brandData.name" class="form-control" id="name">
+        </div>
+        <div class="form-group">
+            <label for="mainIngredient">Main Ingredient</label>
+            <input type="text" ng-model="brandData.mainIngredient" class="form-control" id="mainIngredient">
+        </div>
+        <div class="form-group">
+            <label for="ingredients">Ingredients</label>
+            <input type="text" ng-model=brandData.ingredients class="form-control" placeholder="Add Ingredient">
+        </div>
+        <div ng-hide="editMode" class="form-group">
+            <label for="participant">Owner</label>
+            <ui-select ng-model="brandData.owner" class="btn-group bootstrap-select form-control" ng-disabled="false" append-to-body="true"
+                search-enabled="false">
+                <ui-select-match placeholder="Owner">
+                    <span> {{$select.selected.name || brandData.owner }}</span>
+                </ui-select-match>
+                <ui-select-choices repeat="owner in ownerChoices | filter: $select.search">
+                    <span ng-bind-html="owner.name"></span>
+                </ui-select-choices>
+            </ui-select>
+        </div>
+        <button type="submit" ng-click="saveBrand()" class="btn btn-danger">Save Brand</button>
+    </form>
+</div>

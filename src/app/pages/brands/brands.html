@@ -1,0 +1,35 @@
+<div
+  ba-panel
+  ba-panel-title="Create a Brand"
+  ba-panel-class="with-scroll">
+    <form>
+     <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" ng-model="brandData.name" class="form-control" id="name">
+      </div>
+      <div class="form-group">
+        <label for="mainIngredient">Main Ingredient</label>
+        <input type="text" ng-model="brandData.mainIngredient" class="form-control" id="mainIngredient">
+      </div>
+      <div class="form-group">
+        <label for="ingredients">Ingredients</label>
+        <input type="text" tag-input="primary" ng-model=brandData.ingredients placeholder="Add Ingredient">
+      </div>
+      <div class="form-group">
+        <label for="participant">Owner</label>
+        <ui-select ng-model="brandData.owner"
+                   class="btn-group bootstrap-select form-control"
+                   ng-disabled="false"
+                   append-to-body="true"
+                   search-enabled="false">
+          <ui-select-match placeholder="Owner">
+            <span> {{$select.selected.name}}</span>
+          </ui-select-match>
+          <ui-select-choices repeat="owner in ownerChoices | filter: $select.search">
+            <span ng-bind-html="owner.name"></span>
+          </ui-select-choices>
+        </ui-select>
+      </div>
+      <button type="submit" ng-click="createBrand()" class="btn btn-danger">Create Brand</button>
+    </form>
+</div>

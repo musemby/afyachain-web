@@ -1,0 +1,48 @@
+<div ba-panel ba-panel-class="with-scroll">
+<div class="add-row-editable-table">
+    <button class="btn btn-primary" ng-click="goCreate()">Add Brand</button>
+  </div>
+  <table class="table table-bordered table-hover table-condensed">
+    <tr>
+      <td></td>
+      <td>Name</td>
+      <td>Main Ingredient</td>
+      <td>Created Date</td>
+      <td>Actions</td>
+    </tr>
+    <tr ng-repeat="brand in brands" class="editable-row">
+      <td>
+          {{$index + 1}}
+      </td>
+      <td>
+          <span editable-text="brand.name" e-name="name" e-form="rowform" e-required>
+            {{ brand.name }}
+          </span>
+      </td>
+      <td class="select-td">
+          <span editable-select="brand.mainIngredient" e-name="mainIngredient" e-form="rowform">
+            {{ brand.mainIngredient }}
+          </span>
+      </td>
+      <td>
+        <span e-name="name" e-form="rowform" e-required>
+          {{ brand.created }}
+        </span>
+      </td>
+      <td>
+        <form editable-form name="rowform" ng-show="rowform.$visible" class="form-buttons form-inline"
+              shown="inserted == brand">
+          <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary editable-table-button btn-xs">
+            Save
+          </button>
+          <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default editable-table-button btn-xs">
+            Cancel
+          </button>
+        </form>
+        <div class="buttons" ng-show="!rowform.$visible">
+          <button class="btn btn-primary editable-table-button btn-xs" ng-click="goEdit(brand.brandId)">View</button>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>

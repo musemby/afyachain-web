@@ -1,0 +1,119 @@
+<div ba-panel ba-panel-class="profile-page">
+    <div class="panel-content">
+        <h3 class="with-line pt-0">Brand Details</h3>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group row clearfix">
+                    <div class="col-sm-9">
+                        <div class="userpic">
+                            <div class="userpic-wrapper">
+                                <img ng-src="{{ picture }}" ng-click="uploadPicture()">
+                            </div>
+                            <i class="ion-ios-close-outline" ng-click="removePicture()" ng-if="!noPicture"></i>
+                            <a href class="change-userpic" ng-click="uploadPicture()">Change Logo</a>
+                            <input type="file" ng-show="false" id="uploadFile" ng-file-select="onFileSelect($files)">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" ng-model="brandData.name" class="form-control" id="name">
+                </div>
+                <div class="form-group">
+                    <label for="mainIngredient">Main Ingredient</label>
+                    <input type="text" ng-model="brandData.mainIngredient" class="form-control" id="mainIngredient">
+                </div>
+                <div class="form-group">
+                    <label for="ingredients">Ingredients</label>
+                    <input type="text" ng-model=brandData.ingredients class="form-control" placeholder="Add Ingredient">
+                </div>
+                <button type="submit" ng-click="saveBrand()" class="btn btn-default btn-with-icon pull-right">
+                    <i class="fa fa-pencil"></i>Save Changes</button>
+                <!-- <button type="submit" ng-click="saveBrand()" class="btn btn-default pull-right">Save Changes</button> -->
+            </div>
+        </div>
+
+        <h3 class="with-line">Batches</h3>
+        <div ba-panel ba-panel-class="with-scroll">
+            <div class="add-row-editable-table">
+                <button class="btn btn-primary" ng-click="toggleShowBatchCreate()">Add Batch</button>
+            </div>
+            <div ng-if="showBatchCreate" ba-panel ba-panel-title="Create a Batch" ba-panel-class="with-scroll">
+                <form>
+                    <div class="form-group">
+                        <label for="name">Unit Count</label>
+                        <input type="number" ng-model="newBatchData.unitCount" class="form-control" id="unitCount">
+                    </div>
+                    <div class="form-group">
+                        <label for="manufactureDate">Manufacture Date</label>
+                        <p class="input-group">
+                            <input type="text" class="form-control" uib-datepicker-popup="{{format}}" datepicker-options="options"
+                                   ng-model="newBatchData.manufactureDate" is-open="manOpened"
+                                   ng-required="true" close-text="Close" alt-input-formats="altInputFormats" show-button-bar="false" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="openManDatePicker()">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </button>
+                            </span>
+                        </p>
+                    </div>
+                    <div class="form-group">
+                        <label for="expiryDate">Expiry Date</label>
+                        <p class="input-group">
+                            <input type="text" class="form-control" uib-datepicker-popup="{{format}}" datepicker-options="options" ng-model="newBatchData.expiryDate"
+                                is-open="expOpened" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" show-button-bar="false"
+                            />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="openExpDatePicker()">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </button>
+                            </span>
+                        </p>
+                    </div>
+                    <button type="submit" ng-click="saveBatch()" class="btn btn-danger">Create Batch</button>
+                </form>
+            </div>
+            <table ng-hide="showBatchCreate" class="table table-bordered table-hover table-condensed">
+                <tr>
+                    <td></td>
+                    <td>Code</td>
+                    <td>Manufacture Date</td>
+                    <td>Expiry Date</td>
+                    <td>Unit Count</td>
+                    <td>Status</td>
+                    <td>Created On</td>
+                    <td>Actions</td>
+                </tr>
+                <tr ng-repeat="batch in batches" class="editable-row">
+                    <td>
+                        {{$index + 1}}
+                    </td>
+                    <td>
+                        <span>{{ batch.code }}</span>
+                    </td>
+                    <td class="select-td">
+                        <span>{{ batch.manufactureDate | date }}</span>
+                    </td>
+                    <td class="select-td">
+                        <span>{{ batch.expiryDate | date }}</span>
+                    </td>
+                    <td>
+                        <span>{{ batch.unitCount }}</span>
+                    </td>
+                    <td>
+                        <span class="label label-success">{{ batch.status }}</span>
+                    </td>
+                    <td>
+                        <span>{{ batch.created }}</span>
+                    </td>
+                    <td>
+                        <div class="buttons" ng-show="!rowform.$visible">
+                            <button class="btn btn-primary editable-table-button btn-xs" ng-click=goViewBatch(batch.code)>View</button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
