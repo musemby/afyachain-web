@@ -4,8 +4,8 @@
     angular.module('BlurAdmin.pages.inventorySetup.controllers')
         .controller(
             'BlurAdmin.pages.inventorySetup.controllers.brands', [
-                "$scope", "$state", "$filter", "BrandsService",
-                "BatchService", "ParticipantsService", "UnitService", BrandController]);
+                "$rootScope", "$scope", "$state", "$filter", "BrandsService",
+            "BatchService", "ParticipantsService", "UnitService", "afyaAlert", BrandController]);
 
     String.prototype.format = function () {
         var a = this;
@@ -15,7 +15,9 @@
         return a
     }
 
-    function BrandController($scope, $state, $filter, brandService, batchSvc, participantSvc, unitSvc) {
+    function BrandController(
+        $rootScope, $scope, $state, $filter, brandService, batchSvc,
+        participantSvc, unitSvc, afyaAlert) {
         let brandId = $state.params.id;
         let batchId = $state.params.batchId;
         let manOpened = false;
@@ -32,27 +34,25 @@
 
         brandService.list()
             .then(function (data) {
-                console.log(data)
                 $scope.brands = data.data;
             }).catch(function (err) {
-                console.log(err);
+                afyaAlert.error(err);
             });
-
-        participantSvc.list()
+            
+            participantSvc.list()
             .then(function (data) {
                 $scope.ownerChoices = data.data;
             }).catch(function (err) {
-                console.log(err);
+                afyaAlert.error(err);
             });
 
         if (brandId) {
             $scope.title = 'Edit a Brand';
             brandService.get(brandId)
                 .then(function (data) {
-                    console.log('ccccccc', data);
                     $scope.brandData = data.data;
                 }).catch(function (err) {
-                    console.log(err);
+                    afyaAlert.error(err);
                 });
 
 
@@ -60,39 +60,53 @@
             $scope.showBatchCreate = false;
             $scope.toggleShowBatchCreate = function () {
                 $scope.showBatchCreate = !$scope.showBatchCreate;
-                console.log($scope.showBatchCreate);
             }
 
             let brandBatchFilter = '{"where":{"brand":"resource:org.afyachain.Brand#{0}"}}'.format(brandId);
             batchSvc.list(brandBatchFilter)
                 .then(function (data) {
-                    console.log('batcheeeeees', data);
                     $scope.batches = data.data;
                 }).catch(function (err) {
-                    console.log(err);
+                    afyaAlert.error(err);                    
                 });
 
             $scope.saveBatch = function () {
-                console.log($scope.newBatchData);
-                $scope.newBatchData.brand = "org.afyachain.Brand" + "#" + brandId;
-                $scope.newBatchData.owner = $scope.brandData.owner;
-                batchSvc.create($scope.newBatchData)
-                    .then(function (data) {
-                        console.log(data);
-                        $state.reload();
-                        $scope.toggleShowBatchCreate();
-                    }).catch(function (err) {
-                        console.log(err);
+                if(batchId) {
+                    let toSave = Object.assign({}, $scope.editBatchData);
+                    toSave.manufactureDate = String(toSave.manufactureDate);
+                    toSave.expiryDate = String(toSave.expiryDate);
+                    delete toSave.code;
+                    batchSvc.put(batchId, toSave)
+                    .then(function(data) {
+                        afyaAlert.success("The batch was successfully updated.");
+                    }).then(function(err) {
+                        afyaAlert.error(err);
                     });
-            };
+                } else {
+                    $scope.newBatchData.brand = "org.afyachain.Brand" + "#" + brandId;
+                    $scope.newBatchData.owner = $scope.brandData.owner;
+                    batchSvc.create($scope.newBatchData)
+                        .then(function (data) {
+                            $state.reload();
+                            $scope.toggleShowBatchCreate();
+                            afyaAlert.success("The batch was successfully created.");
+                        }).catch(function (err) {
+                            afyaAlert.error(err);
+                        });
+                };
+                }
         }
 
         if (batchId) {
             $scope.title = 'Edit a Batch';
             batchSvc.get(batchId)
                 .then(function (data) {
-                    $scope.editBatchData = data.data;
-                    console.log('baaaaatch', $scope.editBatchData);
+                    let tData = Object.assign({}, data.data);
+                    let d = Date.parse(data.data.manufactureDate);
+                    let e = Date.parse(data.data.expiryDate);
+                    tData.manufactureDate = new Date(d);
+                    tData.expiryDate = new Date(e);
+                    $scope.editBatchData = tData;
                 }).catch(function (err) {
                     console.log(err);
                 });
@@ -102,7 +116,6 @@
             unitSvc.list(batchUnitFilter)
                 .then(function (data) {
                     $scope.units = data.data;
-                    console.log('uuuuunit', data);
                 }).catch(function (err) {
                     console.log(err)
                 });
@@ -115,17 +128,18 @@
             if (brandId) {
                 brandService.put(brandId, putData)
                     .then(function (data) {
-                        console.log(data);
+                        afyaAlert.success("The brand was successfully updated.");
                     }).catch(function (err) {
-                        console.log(err);
+                        afyaAlert.error(err);
                     });
             } else {
                 $scope.brandData.ingredients = $scope.brandData.ingredients.split(",");
                 brandService.create($scope.brandData)
                     .then(function (data) {
                         $state.go('inventorySetup.listBrands');
+                        afyaAlert.success("The brand was successfully created.");
                     }).catch(function (err) {
-                        console.log(err);
+                        afyaAlert.error(err);
                     });
             }
         };

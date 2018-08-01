@@ -24,30 +24,16 @@
                 <div class="form-group">
                     <label for="manufactureDate">Manufacture Date</label>
                     <p class="input-group">
-                        <input type="text" class="form-control" uib-datepicker-popup="{{format}}" datepicker-options="options" ng-model="editBatchData.manufactureDate"
-                            is-open="manOpened" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" show-button-bar="false"
-                        />
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-default" ng-click="openManDatePicker()">
-                                <i class="glyphicon glyphicon-calendar"></i>
-                            </button>
-                        </span>
+                        <input type="date"  uib-datepicker-popup="{{format}}" class="form-control" ng-model="editBatchData.manufactureDate">
                     </p>
                 </div>
                 <div class="form-group">
-                    <label for="expiryDate">Expiry Date</label>
+                    <label for="manufactureDate">Expiry Date</label>
                     <p class="input-group">
-                        <input type="text" class="form-control" uib-datepicker-popup="{{format}}" datepicker-options="options" ng-model="editBatchData.expiryDate"
-                            is-open="expOpened" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" show-button-bar="false"
-                        />
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-default" ng-click="openExpDatePicker()">
-                                <i class="glyphicon glyphicon-calendar"></i>
-                            </button>
-                        </span>
+                        <input type="date" uib-datepicker-popup="{{format}}" class="form-control" ng-model="editBatchData.expiryDate">
                     </p>
                 </div>
-                <button type="submit" ng-click="saveBrand()" class="btn btn-default btn-with-icon pull-right">
+                <button type="submit" ng-click="saveBatch()" class="btn btn-default btn-with-icon pull-right">
                     <i class="fa fa-pencil"></i>Save Changes</button>
             </div>
         </div>
@@ -119,7 +105,7 @@
                     </td>
                     <td>
                         <div class="buttons" ng-show="!rowform.$visible">
-                            <button class="btn btn-primary editable-table-button btn-xs" ng-click="goEdit(brand.brandId)">View</button>
+                            <button class="btn btn-primary editable-table-button btn-xs">View</button>
                         </div>
                     </td>
                 </tr>

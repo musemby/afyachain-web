@@ -2,7 +2,8 @@
   'use strict';
 
   angular.module('BlurAdmin.pages.inventorySetup', [
-      'BlurAdmin.pages.inventorySetup.controllers'
+      'BlurAdmin.pages.inventorySetup.controllers',
+      'BlurAdmin.pages.common'
   ])
       .config(routeConfig);
 

@@ -34,6 +34,18 @@
   <div class="al-main">
     <div class="al-content">
       <content-top></content-top>
+      <div ng-if="showSuccess" class="alert bg-success closeable" role="alert">
+        <button ng-click="showSuccess=!showSuccess" type="button" class="close" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <strong>Success: </strong> {{ successMessage }}
+      </div>
+      <div ng-if="showFailure" class="alert bg-danger closeable" role="alert">
+        <button ng-click="showFailure='false'" type="button" class="close" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <strong>{{ title }}: </strong> {{ failureMessage }}
+      </div>
       <div ui-view="content">
         <div autoscroll="true" autoscroll-body-top></div>
       </div>
