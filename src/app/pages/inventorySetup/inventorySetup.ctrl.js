@@ -56,7 +56,7 @@
             }
 
             let brandBatchFilter = '{"where":{"brand":"resource:org.afyachain.Brand#{0}"}}'.format(brandId);
-            batchSvc.list('{"where": {"brand": "org.afyachain.Brand#2220"}}')
+            batchSvc.list(brandBatchFilter)
                 .then(function (data) {
                     console.log('batcheeeeees', data);
                     $scope.batches = data.data;
@@ -128,6 +128,11 @@
         }).catch(function (err) {
             console.log(err);
         });
+
+        $scope.goCreateBrand = function () {
+            // let id = $state.params.id;
+            $state.go('inventorySetup.createBrand');
+        };
 
         $scope.goEdit = function (bId) {
             // let id = $state.params.id;

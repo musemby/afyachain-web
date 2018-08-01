@@ -39,7 +39,6 @@
         })
       .state('inventorySetup.createBrand', {
         url: '/createBrand',
-        // templateUrl: 'app/pages/inventorySetup/brand.form.html',
         views: {
           "content@": {
             templateUrl: 'app/pages/inventorySetup/brand.form.html',
