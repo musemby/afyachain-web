@@ -20,17 +20,24 @@
         let batchId = $state.params.batchId;
         let manOpened = false;
         let expOpened = false;
-        // '2018-07-19T21:00:00.000Z'
 
-        $scope.altInputFormats = ['yyyy-MM-ddTHH:mm:ss.sss', 'yyyy-MM-dd', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+        $scope.altInputFormats = ['yyyy-MM-ddTHH:mm:ss.sss'];
         $scope.brandData = {
             brandId: Math.floor(Math.random() * 100000),
             created: new Date(),
             updated: new Date()
         };
-
         $scope.newBatchData = {};
         $scope.title = 'Create Brand';
+
+        brandService.list()
+            .then(function (data) {
+                console.log(data)
+                $scope.brands = data.data;
+            }).catch(function (err) {
+                console.log(err);
+            });
+
         participantSvc.list()
             .then(function (data) {
                 $scope.ownerChoices = data.data;
@@ -102,10 +109,11 @@
         }
 
         $scope.saveBrand = function () {
-            $scope.brandData.owner = $scope.brandData.owner.$class + "#" + $scope.brandData.owner.email;
-            console.log('branddataa', $scope.brandData);
+            let putData = Object.assign({}, $scope.brandData);
+            delete putData.brandId;
+            console.log('branddataa', putData);
             if (brandId) {
-                brandService.put(id, $scope.brandData)
+                brandService.put(brandId, putData)
                     .then(function (data) {
                         console.log(data);
                     }).catch(function (err) {
@@ -122,32 +130,29 @@
             }
         };
 
-        brandService.list()
-            .then(function (data) {
-                console.log(data)
-                $scope.brands = data.data;
-            }).catch(function (err) {
-                console.log(err);
-            });
-
+        // state changing functions
         $scope.goCreateBrand = function () {
-            // let id = $state.params.id;
             $state.go('inventorySetup.createBrand');
         };
 
         $scope.goEdit = function (bId) {
-            // let id = $state.params.id;
             console.log(bId)
             $state.go('inventorySetup.editBrand', { id: bId });
         };
 
         $scope.goViewBatch = function (code) {
-            // let id = $state.params.id;
             console.log(code);
             $state.go('inventorySetup.editBrand.editBatch', { batchId: code });
         };
 
-        // brand detail view
+        $scope.openManDatePicker = function () {
+            $scope.manOpened = !manOpened;
+        };
+        $scope.openExpDatePicker = function () {
+            $scope.expOpened = !expOpened;
+        };
+
+        // brand logo logic
         $scope.picture = $filter('profilePicture')('Calpol');
 
         $scope.removePicture = function () {
@@ -161,12 +166,6 @@
 
         };
 
-        $scope.openManDatePicker = function () {
-            $scope.manOpened = !manOpened;
-        };
-        $scope.openExpDatePicker = function () {
-            $scope.expOpened = !expOpened;
-        };
     }
 }
 )();
