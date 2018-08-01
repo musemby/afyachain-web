@@ -5,7 +5,6 @@
     'ui.router',
 
     'BlurAdmin.pages.dashboard',
-    'BlurAdmin.pages.form',
     'BlurAdmin.pages.tables',
     'BlurAdmin.pages.profile',
     // mines
