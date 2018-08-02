@@ -19,6 +19,18 @@
             $rootScope.title = data.data.error.name;
             $rootScope.failureMessage = data.data.error.message;
         };
+
+        $rootScope.closeSuccessAlert = function () {
+            $rootScope.showSuccess = false;
+        };
+
+        $rootScope.closeFailureAlert = function () {
+            $rootScope.showFailure = false;
+        };
+
+        $rootScope.$watch('showSuccess', function() {
+            console.log($rootScope.showSuccess);
+        });
     }
 
     function CommonService() {

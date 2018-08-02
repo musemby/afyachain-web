@@ -129,6 +129,7 @@
                 brandService.put(brandId, putData)
                     .then(function (data) {
                         afyaAlert.success("The brand was successfully updated.");
+                        console.log($rootScope);
                     }).catch(function (err) {
                         afyaAlert.error(err);
                     });
