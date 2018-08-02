@@ -5,7 +5,8 @@
         .controller(
             'BlurAdmin.pages.inventorySetup.controllers.brands', [
                 "$rootScope", "$scope", "$state", "$filter", "BrandsService",
-            "BatchService", "ParticipantsService", "UnitService", "afyaAlert", BrandController]);
+                "BatchService", "ParticipantsService", "UnitService", "afyaAlert",
+                "fileReader", BrandController]);
 
     String.prototype.format = function () {
         var a = this;
@@ -17,11 +18,17 @@
 
     function BrandController(
         $rootScope, $scope, $state, $filter, brandService, batchSvc,
-        participantSvc, unitSvc, afyaAlert) {
+        participantSvc, unitSvc, afyaAlert, fileReader) {
         let brandId = $state.params.id;
         let batchId = $state.params.batchId;
         let manOpened = false;
         let expOpened = false;
+
+        $scope.imageSrc = "";
+
+        $scope.$on("fileProgress", function (e, progress) {
+            $scope.progress = progress.loaded / progress.total;
+        });
 
         $scope.altInputFormats = ['yyyy-MM-ddTHH:mm:ss.sss'];
         $scope.brandData = {
@@ -180,7 +187,6 @@
             fileInput.click();
 
         };
-
     }
 }
 )();
