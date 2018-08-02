@@ -63,6 +63,19 @@
                         });
                 })
         };
+
+        self.put = function (id, payload) {
+            return $q(
+                function (resolve, reject) {
+                    $http.put(url + '/' + id, payload)
+                        .then(function (data) {
+                            resolve(data);
+                        }).catch(function (err) {
+                            reject(err);
+                        });
+                }
+            )
+        }
     }
 
     function UnitService($http, $q) {

@@ -1,7 +1,10 @@
 (function () {
   'use strict';
 
-  angular.module('BlurAdmin.pages.inventorySetup', [])
+  angular.module('BlurAdmin.pages.inventorySetup', [
+      'BlurAdmin.pages.inventorySetup.controllers',
+      'BlurAdmin.pages.common'
+  ])
       .config(routeConfig);
 
   /** @ngInject */
@@ -15,7 +18,6 @@
             controller: 'SetupCtrl'
           }
         },
-        // controller: 'SetupCtrl',
         title: 'Setup',
         sidebarMeta: {
           icon: 'ion-gear-a',
@@ -24,11 +26,10 @@
         })
       .state('inventorySetup.listBrands', {
         url: '/inventorySetup',
-        // templateUrl: 'app/pages/inventorySetup/inventorySetup.html',
         views: {
           "content@": {
-            templateUrl: 'app/pages/inventorySetup/inventorySetup.html',
-            controller: 'SetupCtrl',
+            templateUrl: 'app/pages/inventorySetup/tpls/inventorySetup.html',
+            controller: 'BlurAdmin.pages.inventorySetup.controllers.brands',
           }
         },
         title: 'Brands',
@@ -41,8 +42,8 @@
         url: '/createBrand',
         views: {
           "content@": {
-            templateUrl: 'app/pages/inventorySetup/brand.form.html',
-            controller: 'SetupCtrl',
+            templateUrl: 'app/pages/inventorySetup/tpls/brand.form.html',
+            controller: 'BlurAdmin.pages.inventorySetup.controllers.brands',
           }
         },
         // title: 'Edit Brand',
@@ -55,8 +56,8 @@
         url: '/editBrand/:id',
         views: {
           "content@": {
-            templateUrl: 'app/pages/inventorySetup/brandDetail.html',
-            controller: 'SetupCtrl',
+            templateUrl: 'app/pages/inventorySetup/tpls/brand.detail.html',
+            controller: 'BlurAdmin.pages.inventorySetup.controllers.brands',
           }
         },
         // title: 'Edit Brand',
@@ -67,11 +68,10 @@
       })
       .state('inventorySetup.editBrand.editBatch', {
         url: '/editBatch/:batchId',
-        // templateUrl: 'app/pages/inventorySetup/batchDetail.html',
         views: {
           "content@": {
-            templateUrl: 'app/pages/inventorySetup/batchDetail.html',
-            controller: 'SetupCtrl',
+            templateUrl: 'app/pages/inventorySetup/tpls/batch.detail.html',
+            controller: 'BlurAdmin.pages.inventorySetup.controllers.brands',
           }
         },
         sidebarMeta: {

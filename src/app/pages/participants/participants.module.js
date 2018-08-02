@@ -12,10 +12,6 @@
           templateUrl: 'app/pages/participants/participants.html',
           controller: 'ParticipantFormCtrl',
           title: 'Participants',
-          sidebarMeta: {
-          	icon: 'ion-gear-a',
-            order: 800,
-          },
         });
   }
 

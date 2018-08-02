@@ -1,0 +1,17 @@
+{
+    "name": "afyachain-upload-server",
+    "version": "1.0.1",
+    "description": "Simple server to upload files locally",
+    "main": "server.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "@musemby",
+    "license": "MIT",
+    "dependencies": {
+        "express": "^4.13.4",
+        "http": "0.0.0",
+        "multer": "^1.1.0",
+        "path": "^0.12.7"
+    }
+}
