@@ -13,15 +13,14 @@ var storage = multer.diskStorage({
 
 var upload = multer({ storage: storage })
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '/public')));
 
 app.set('port', process.env.PORT || 3005);
 
-app.post('/uploadFile', upload.single('file'), function (req, res, next) {
-    console.log(res);
+app.post('/uploadFile', upload.single('photo'), function (req, res, next) {
+    console.log(req.data);
     return res;
 });
-
 
 http.createServer(app).listen(app.get('port'), function () {
     console.log('Express server listening on port ' + app.get('port'));

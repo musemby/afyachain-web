@@ -9,10 +9,11 @@ angular.module('BlurAdmin.pages.common')
                 console.log(file);
                 fileReader.readAsDataUrl(file, $scope)
                     .then(function (result) {
-                        // console.log(result);
+                        console.log(result);
                         var fd = new FormData();
-                        var uploadUrl = 'http://localhost:3005/uploadFile'
+                        var uploadUrl = 'http://localhost:3010/upload'
                         fd.append('file', result);
+                        fd.redirectUrl = 'http://localhost:3000/#/inventorySetup/editBrand/28260';
                         $http.post(uploadUrl, fd, {
                             transformRequest: angular.identity,
                             headers: { 'Content-Type': undefined }

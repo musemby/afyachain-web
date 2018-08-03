@@ -6,7 +6,7 @@
             'BlurAdmin.pages.inventorySetup.controllers.brands', [
                 "$rootScope", "$scope", "$state", "$filter", "BrandsService",
                 "BatchService", "ParticipantsService", "UnitService", "afyaAlert",
-                "fileReader", BrandController]);
+            "fileReader", "baProgressModal", "$uibModal", "$timeout", BrandController]);
 
     String.prototype.format = function () {
         var a = this;
@@ -18,7 +18,7 @@
 
     function BrandController(
         $rootScope, $scope, $state, $filter, brandService, batchSvc,
-        participantSvc, unitSvc, afyaAlert, fileReader) {
+        participantSvc, unitSvc, afyaAlert, fileReader, baProgressModal, $uibModal, $timeout) {
         let brandId = $state.params.id;
         let batchId = $state.params.batchId;
         let manOpened = false;
@@ -92,6 +92,7 @@
                 } else {
                     $scope.newBatchData.brand = "org.afyachain.Brand" + "#" + brandId;
                     $scope.newBatchData.owner = $scope.brandData.owner;
+                    $scope.newBatchData.created = String(new Date());
                     batchSvc.create($scope.newBatchData)
                         .then(function (data) {
                             $state.reload();
@@ -182,10 +183,23 @@
             $scope.noPicture = true;
         };
 
-        $scope.uploadPicture = function () {
-            var fileInput = document.getElementById('uploadFile');
-            fileInput.click();
+        // $scope.uploadPicture = function () {
+        //     var fileInput = document.getElementById('uploadFile');
+        //     fileInput.click();
+        // };
 
+        // new upload logic
+        $scope.open = function (page, size) {
+            $uibModal.open({
+                animation: true,
+                templateUrl: page,
+                size: size,
+                resolve: {
+                    items: function () {
+                        return $scope.items;
+                    }
+                }
+            });
         };
     }
 }
