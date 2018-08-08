@@ -27,6 +27,7 @@
         self = this;
         var url = "http://localhost:4000/api/Batch";
         var urlCreate = "http://localhost:4000/api/createBatch";
+        var urlDispatch = "http://localhost:4000/api/DispatchBatch";
 
         self.list = function (filters) {
             return $q(
@@ -76,6 +77,18 @@
                 }
             )
         }
+
+        self.dispatch = function (payload) {
+            return $q(
+                function (resolve, reject) {
+                    $http.post(urlDispatch, payload)
+                        .then(function (data) {
+                            resolve(data);
+                        }).catch(function (err) {
+                            reject(err);
+                        });
+                })
+        };
     }
 
     function UnitService($http, $q) {

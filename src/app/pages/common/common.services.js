@@ -16,8 +16,8 @@
         self.error = function (data) {
             $rootScope.showFailure = true;
             console.log(data);
-            // $rootScope.title = data.data.error.name;
-            // $rootScope.failureMessage = data.data.error.message;
+            $rootScope.title = data.data.error.name;
+            $rootScope.failureMessage = data.data.error.message;
         };
 
         $rootScope.closeSuccessAlert = function () {

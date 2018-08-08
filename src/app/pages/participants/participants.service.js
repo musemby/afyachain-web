@@ -8,10 +8,15 @@
         self = this;
         var url = "http://localhost:4000/api/ChainParticipant";
 
-        self.list = function () {
+        self.list = function (filters) {
+            if(filters) {
+               var modifiedUrl = url + "?filter=" + encodeURIComponent(filters);
+            } else {
+                modifiedUrl = url;
+            }
             return $q(
                 function (resolve, reject) {
-                    $http.get(url)
+                    $http.get(modifiedUrl)
                     .then(function (data) {
                         resolve(data);
                     }).catch(function (err) {

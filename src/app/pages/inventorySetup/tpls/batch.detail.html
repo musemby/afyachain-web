@@ -1,6 +1,9 @@
 <div ba-panel ba-panel-class="profile-page">
     <div class="panel-content">
-        <h3 class="with-line pt-0">{{brandData.name}}: batch #{{ editBatchData.code }}</h3>
+        <h3 class="with-line pt-0">{{brandData.name}}: <strong>Batch #{{ editBatchData.code }} </strong><button class="btn btn-success pull-right m-b-5" data-toggle="modal" ng-click="open('app/pages/inventorySetup/tpls/dispatch-form-modal.html', 'md')">Dispatch Batch</button></h3>
+        <!-- <div class="add-row-editable-table">
+            <button class="btn btn-success pull-right m-b-5" data-toggle="modal" ng-click="open('app/pages/inventorySetup/tpls/dispatch-form-modal.html', 'md')">Dispatch Batch</button>
+        </div> -->
         <div class="row">
             <div class="col-md-3">
                 <div class="form-group row clearfix">
@@ -16,7 +19,11 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-9">
+                 <div class="form-group">
+                     <label for="name">Status</label><br>
+                     <span class="label label-primary">{{ editBatchData.status }}</span>
+                </div>
                 <div class="form-group">
                     <label for="name">Code</label>
                     <input type="text" ng-model="editBatchData.code" class="form-control" id="code">
@@ -40,9 +47,6 @@
 
         <h3 class="with-line">Units</h3>
         <div ba-panel ba-panel-class="with-scroll">
-            <div class="add-row-editable-table">
-                <button class="btn btn-primary" ng-click="toggleShowBatchCreate()">Add Unit</button>
-            </div>
             <div ng-if="showBatchCreate" ba-panel ba-panel-title="Create a Batch" ba-panel-class="with-scroll">
                 <form>
                     <div class="form-group">
@@ -85,7 +89,7 @@
                     <td>Status</td>
                     <td>Sold</td>
                     <td>Created On</td>
-                    <td>Actions</td>
+                    <!-- <td>Actions</td> -->
                 </tr>
                 <tr ng-repeat="unit in units" class="editable-row">
                     <td>
@@ -103,11 +107,11 @@
                     <td class="select-td">
                         <span>{{ unit.created }}</span>
                     </td>
-                    <td>
+                    <!-- <td>
                         <div class="buttons" ng-show="!rowform.$visible">
                             <button class="btn btn-primary editable-table-button btn-xs">View</button>
                         </div>
-                    </td>
+                    </td> -->
                 </tr>
             </table>
         </div>
