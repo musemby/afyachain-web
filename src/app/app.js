@@ -3,6 +3,7 @@
 angular.module('BlurAdmin', [
   'ngAnimate',
   'ui.bootstrap',
+  'ui.select',
   'ui.sortable',
   'ui.router',
   'ngTouch',
@@ -13,7 +14,16 @@ angular.module('BlurAdmin', [
   'ngJsTree',
   'angular-progress-button-styles',
   'angularFileUpload',
+  // 'ngCookies',
 
   'BlurAdmin.theme',
-  'BlurAdmin.pages'
+  'BlurAdmin.pages',
+  'BlurAdmin.auth',
 ]);
+
+angular.module('BlurAdmin')
+  .run(['$rootScope', '$location', function ($rootScope, $location) {
+    $rootScope.$on('$routeChangeStart', function (event) {
+      console.log('vdfvfdvdfvdf')
+    })
+  }])

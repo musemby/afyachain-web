@@ -12,7 +12,7 @@
             <label for="ingredients">Ingredients</label>
             <input type="text" ng-model=brandData.ingredients class="form-control" placeholder="Add Ingredient">
         </div>
-        <div ng-hide="editMode" class="form-group">
+        <!-- <div ng-hide="editMode" class="form-group">
             <label for="participant">Owner</label>
             <ui-select ng-model="brandData.owner" class="btn-group bootstrap-select form-control" ng-disabled="false" append-to-body="true"
                 search-enabled="false">
@@ -23,7 +23,7 @@
                     <span ng-bind-html="owner.name"></span>
                 </ui-select-choices>
             </ui-select>
-        </div>
+        </div> -->
         <button type="submit" ng-click="saveBrand()" class="btn btn-danger">Save Brand</button>
     </form>
 </div>

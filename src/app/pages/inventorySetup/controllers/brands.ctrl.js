@@ -37,7 +37,10 @@
             updated: new Date()
         };
         $scope.newBatchData = {};
+        $scope.dispatchBatchData = {};
         $scope.title = 'Create Brand';
+
+        
 
         brandService.list()
             .then(function (data) {
@@ -45,13 +48,15 @@
             }).catch(function (err) {
                 afyaAlert.error(err);
             });
-            
-            participantSvc.list()
+
+        participantSvc.list()
             .then(function (data) {
                 $scope.ownerChoices = data.data;
             }).catch(function (err) {
                 afyaAlert.error(err);
             });
+        
+            
 
         if (brandId) {
             $scope.title = 'Edit a Brand';
@@ -127,12 +132,39 @@
                 }).catch(function (err) {
                     console.log(err)
                 });
+            
+            // dispatch batch stuff
+            let recipientFilter = '{"where":{"type": "SUPPLIER"}}';
+            participantSvc.list(recipientFilter)
+                .then(function (data) {
+                    $scope.recipientsList = data.data;
+                    console.log($scope.recipientsList);
+                }).catch(function (err) {
+                    afyaAlert.error(err);
+                });
+            
+            $scope.dispatchBatch = function () {
+                let owner = $scope.dispatchBatchData.owner;
+                let disBatch = "resource:org.afyachain.Batch#{0}".format(batchId);
+                let recipient = "resource:org.afyachain.ChainParticipant#{0}".format(owner.email);
+                let toPost = {
+                    batch: disBatch,
+                    recipient: recipient,
+                    dispatchedOn: String(new Date)
+                };
+                
+                batchSvc.dispatch(toPost)
+                .then(function (data) {
+                    afyaAlert.success('The batch was successfully dispatched to {0}'.format(owner.name));
+                }).catch(function (err) {
+                    afyaAlert.error(err);
+                })
+            }
         }
 
         $scope.saveBrand = function () {
             let putData = Object.assign({}, $scope.brandData);
             delete putData.brandId;
-            console.log('branddataa', putData);
             if (brandId) {
                 brandService.put(brandId, putData)
                     .then(function (data) {
@@ -143,6 +175,7 @@
                     });
             } else {
                 $scope.brandData.ingredients = $scope.brandData.ingredients.split(",");
+                $scope.brandData.owner = 'org.afyachain.ChainParticipant#musembi@afyachain.com';
                 brandService.create($scope.brandData)
                     .then(function (data) {
                         $state.go('inventorySetup.listBrands');
@@ -176,7 +209,7 @@
         };
 
         // brand logo logic
-        $scope.picture = $filter('profilePicture')('Calpol');
+        $scope.picture = $filter('profilePicture')('Logo');
 
         $scope.removePicture = function () {
             $scope.picture = $filter('appImage')('theme/no-photo.png');
