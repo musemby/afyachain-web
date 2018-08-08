@@ -156,6 +156,7 @@
                 batchSvc.dispatch(toPost)
                 .then(function (data) {
                     afyaAlert.success('The batch was successfully dispatched to {0}'.format(owner.name));
+                    $state.reload();
                 }).catch(function (err) {
                     afyaAlert.error(err);
                 })
