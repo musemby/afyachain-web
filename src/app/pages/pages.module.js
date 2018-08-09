@@ -10,6 +10,7 @@
     'BlurAdmin.pages.brands',
     'BlurAdmin.pages.common',
     'BlurAdmin.pages.inventorySetup',
+    'BlurAdmin.pages.verify',
   ])
       .config(routeConfig);
 

@@ -15,9 +15,13 @@
         
         self.error = function (data) {
             $rootScope.showFailure = true;
-            console.log(data);
             $rootScope.title = data.data.error.name;
-            $rootScope.failureMessage = data.data.error.message;
+            var msg = data.data.error.message;
+            var splitList = msg.split('Error: ');
+            if (splitList.length > 1) {
+                msg = splitList[splitList.length - 1];
+            }
+            $rootScope.failureMessage = msg;
         };
 
         $rootScope.closeSuccessAlert = function () {
