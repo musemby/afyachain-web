@@ -19,6 +19,8 @@
     function BrandController(
         $rootScope, $scope, $state, $filter, brandService, batchSvc,
         participantSvc, unitSvc, afyaAlert, fileReader, baProgressModal, $uibModal, $timeout) {
+        var token = Cookies.get('afyatoken');
+        console.log(token);
         let brandId = $state.params.id;
         let batchId = $state.params.batchId;
         let manOpened = false;

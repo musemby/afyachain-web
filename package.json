@@ -47,10 +47,11 @@
     "postinstall": "bower install"
   },
   "dependencies": {
-    "angular-cookies": "^1.7.2",
+    "angular-animate": "^1.7.3",
     "angular-file-upload": "^2.5.0",
     "angular-uuid": "0.0.4",
     "angular-uuid-secure": "0.0.6",
+    "js-cookie": "^2.2.0",
     "sha1": "^1.1.1"
   }
 }

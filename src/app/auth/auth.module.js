@@ -8,15 +8,40 @@
     function routeConfig($stateProvider) {
         $stateProvider
             .state('auth', {
-                url: '/loginoi/',
-                // templateUrl: 'app/auth/login.html',
+                url: '/auth/',
                 views: {
                     "main@": {
                         templateUrl: 'app/auth/login.html',
                         controller: 'AuthCtrl',
                     }
                 },
-                // controller: 'AuthCtrl',
+            })
+            .state('auth.login', {
+                url: 'login/',
+                views: {
+                    "main@": {
+                        templateUrl: 'app/auth/login.html',
+                        controller: 'AuthCtrl',
+                    }
+                },
+            })
+            .state('auth.complete', {
+                url: 'complete/',
+                views: {
+                    "main@": {
+                        templateUrl: 'app/auth/complete.html',
+                        controller: 'AuthCtrl',
+                    }
+                },
+            })
+            .state('auth.failed', {
+                url: 'failed/',
+                views: {
+                    "main@": {
+                        templateUrl: 'app/auth/failed.html',
+                        controller: 'AuthCtrl',
+                    }
+                },
             })
     }
 
