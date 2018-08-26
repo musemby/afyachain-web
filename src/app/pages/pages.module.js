@@ -14,13 +14,19 @@
   ])
   .config(routeConfig)
   .run(function ($rootScope) {
-    $rootScope.$on('$stateChangeStart', function (event) {
+    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, options) {
       var token = Cookies.get('afyatoken');
-      // console.log(token)
-      if(!token) {
+      if (!token && fromState.name != "") {
+        console.log('Noooo token');
         window.location = 'http://localhost:3000/login.html';
       }
-    })
+    });
+
+    $rootScope.logOut = function () {
+      Cookies.remove('afyatoken');
+      console.log(Cookies.get('afyatoken'))
+      window.location = 'http://localhost:3000/login.html';
+    }
   });
 
 

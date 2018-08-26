@@ -35,6 +35,7 @@
 
         $http.post(url, $scope.participant)
         .then(function (data) {
+          console.log('sucsex');
           var token = btoa(data.data.email);
           window.location = 'http://localhost:3000/#/dashboard?token=' + token;
         }).catch(function (err) {
@@ -42,6 +43,7 @@
         })
       }
     });
+
   </script>
 <main class="auth-main" ng-app='logIn' ng-controller="logInCtrl">
   <div class="auth-block">
