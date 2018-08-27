@@ -19,10 +19,14 @@
     function BrandController(
         $rootScope, $scope, $state, $filter, brandService, batchSvc,
         participantSvc, unitSvc, afyaAlert, fileReader, baProgressModal, $uibModal, $timeout) {
-        let brandId = $state.params.id;
-        let batchId = $state.params.batchId;
-        let manOpened = false;
-        let expOpened = false;
+        var token = Cookies.get('afyatoken');
+        var brandId = $state.params.id;
+        var batchId = $state.params.batchId;
+        var manOpened = false;
+        var expOpened = false;
+
+        var email = atob(token);
+        $scope.currentUser = 'org.afyachain.ChainParticipant#' + email;
 
         $scope.imageSrc = "";
 
@@ -39,8 +43,6 @@
         $scope.newBatchData = {};
         $scope.dispatchBatchData = {};
         $scope.title = 'Create Brand';
-
-        
 
         brandService.list()
             .then(function (data) {
@@ -74,7 +76,7 @@
                 $scope.showBatchCreate = !$scope.showBatchCreate;
             }
 
-            let brandBatchFilter = '{"where":{"brand":"resource:org.afyachain.Brand#{0}"}}'.format(brandId);
+            var brandBatchFilter = '{"where":{"brand":"resource:org.afyachain.Brand#{0}"}}'.format(brandId);
             batchSvc.list(brandBatchFilter)
                 .then(function (data) {
                     $scope.batches = data.data;
@@ -84,7 +86,7 @@
 
             $scope.saveBatch = function () {
                 if(batchId) {
-                    let toSave = Object.assign({}, $scope.editBatchData);
+                    var toSave = Object.assign({}, $scope.editBatchData);
                     toSave.manufactureDate = String(toSave.manufactureDate);
                     toSave.expiryDate = String(toSave.expiryDate);
                     delete toSave.code;
@@ -97,6 +99,7 @@
                 } else {
                     $scope.newBatchData.brand = "org.afyachain.Brand" + "#" + brandId;
                     $scope.newBatchData.owner = $scope.brandData.owner;
+                    $scope.newBatchData.user = $scope.currentUser;
                     $scope.newBatchData.created = String(new Date());
                     batchSvc.create($scope.newBatchData)
                         .then(function (data) {
@@ -114,43 +117,43 @@
             $scope.title = 'Edit a Batch';
             batchSvc.get(batchId)
                 .then(function (data) {
-                    let tData = Object.assign({}, data.data);
-                    let d = Date.parse(data.data.manufactureDate);
-                    let e = Date.parse(data.data.expiryDate);
+                    var tData = Object.assign({}, data.data);
+                    var d = Date.parse(data.data.manufactureDate);
+                    var e = Date.parse(data.data.expiryDate);
                     tData.manufactureDate = new Date(d);
                     tData.expiryDate = new Date(e);
                     $scope.editBatchData = tData;
                 }).catch(function (err) {
-                    console.log(err);
+                    afyaAlert.error(err);
                 });
 
             // unit stuff
-            let batchUnitFilter = '{"where":{"batch":"resource:org.afyachain.Batch#{0}"}}'.format(batchId);
+            var batchUnitFilter = '{"where":{"batch":"resource:org.afyachain.Batch#{0}"}}'.format(batchId);
             unitSvc.list(batchUnitFilter)
                 .then(function (data) {
                     $scope.units = data.data;
                 }).catch(function (err) {
-                    console.log(err)
+                    afyaAlert.error(err);
                 });
             
             // dispatch batch stuff
-            let recipientFilter = '{"where":{"type": "SUPPLIER"}}';
+            var recipientFilter = '{"where":{"type": "SUPPLIER"}}';
             participantSvc.list(recipientFilter)
                 .then(function (data) {
                     $scope.recipientsList = data.data;
-                    console.log($scope.recipientsList);
                 }).catch(function (err) {
                     afyaAlert.error(err);
                 });
             
             $scope.dispatchBatch = function () {
-                let owner = $scope.dispatchBatchData.owner;
-                let disBatch = "resource:org.afyachain.Batch#{0}".format(batchId);
-                let recipient = "resource:org.afyachain.ChainParticipant#{0}".format(owner.email);
-                let toPost = {
+                var owner = $scope.dispatchBatchData.owner;
+                var disBatch = "resource:org.afyachain.Batch#{0}".format(batchId);
+                var recipient = "resource:org.afyachain.ChainParticipant#{0}".format(owner.email);
+                var toPost = {
                     batch: disBatch,
                     recipient: recipient,
-                    dispatchedOn: String(new Date)
+                    dispatchedOn: String(new Date),
+                    user: $scope.currentUser
                 };
                 
                 batchSvc.dispatch(toPost)
@@ -164,19 +167,22 @@
         }
 
         $scope.saveBrand = function () {
-            let putData = Object.assign({}, $scope.brandData);
+            var putData = Object.assign({}, $scope.brandData);
+            putData.user = self.currentUser;
             delete putData.brandId;
             if (brandId) {
                 brandService.put(brandId, putData)
                     .then(function (data) {
                         afyaAlert.success("The brand was successfully updated.");
-                        console.log($rootScope);
                     }).catch(function (err) {
                         afyaAlert.error(err);
                     });
             } else {
                 $scope.brandData.ingredients = $scope.brandData.ingredients.split(",");
-                $scope.brandData.owner = 'org.afyachain.ChainParticipant#musembi@afyachain.com';
+                console.log($scope.currentUser)
+                $scope.brandData.owner = $scope.currentUser;
+                $scope.brandData.createdBy = $scope.currentUser;
+                $scope.brandData.updatedBy = $scope.currentUser;
                 brandService.create($scope.brandData)
                     .then(function (data) {
                         $state.go('inventorySetup.listBrands');
@@ -193,12 +199,10 @@
         };
 
         $scope.goEdit = function (bId) {
-            console.log(bId)
             $state.go('inventorySetup.editBrand', { id: bId });
         };
 
         $scope.goViewBatch = function (code) {
-            console.log(code);
             $state.go('inventorySetup.editBrand.editBatch', { batchId: code });
         };
 

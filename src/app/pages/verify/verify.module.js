@@ -1,0 +1,38 @@
+(function () {
+    'use strict';
+
+    angular.module('BlurAdmin.pages.verify', [])
+        .config(routeConfig);
+
+    /** @ngInject */
+    function routeConfig($stateProvider) {
+        $stateProvider
+            .state('verify', {
+                url: '/verify',
+                views: {
+                    "content@": {
+                        template: '<ui-view autoscroll="true" autoscroll-body-top></ui-view>',
+                    }
+                },
+                title: 'Verify',
+                sidebarMeta: {
+                    icon: 'ion-gear-a',
+                    order: 800,
+                },
+            })
+            .state('verify.listBrands', {
+                url: '/batches',
+                views: {
+                    "content@": {
+                        templateUrl: 'app/pages/verify/tpls/verify-batch.html',
+                        controller: 'VerifyCtrl',
+                    }
+                },
+                title: 'Batches',
+                sidebarMeta: {
+                    // icon: 'ion-gear-a',
+                    order: 800,
+                },
+            });
+    }
+})();

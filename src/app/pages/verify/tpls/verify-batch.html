@@ -1,0 +1,55 @@
+<div class="row">
+    <div class="col-md-12" ba-panel ba-panel-title="Scan or Type the Batch Code Below" ba-panel-class="with-scroll">
+            <form class="row form-inline">
+                <div class="form-group col-xs-8">
+                    <input type="text" ng-model="batchCode.code" class="form-control" id="code">
+                </div>
+                <div class="col-xs-4">
+                    <button ng-click="verifyCode()" class="btn btn-primary">Verify and Receive Batch</button>
+                </div>
+            </form>
+    </div>
+</div>
+
+<div ba-panel ba-panel-title="Received Batches" ba-panel-class="with-scroll">
+    <table ng-hide="showBatchCreate" class="table table-bordered table-hover table-condensed">
+        <tr>
+            <td></td>
+            <td>Code</td>
+            <td>Manufacture Date</td>
+            <td>Expiry Date</td>
+            <td>Unit Count</td>
+            <td>Status</td>
+            <td>Created On</td>
+            <td>Actions</td>
+        </tr>
+        <tr ng-repeat="batch in batches" class="editable-row">
+            <td>
+                {{$index + 1}}
+            </td>
+            <td>
+                <span>{{ batch.code }}</span>
+            </td>
+            <td class="select-td">
+                <span>{{ batch.manufactureDate | date }}</span>
+            </td>
+            <td class="select-td">
+                <span>{{ batch.expiryDate | date }}</span>
+            </td>
+            <td>
+                <span>{{ batch.unitCount }}</span>
+            </td>
+            <td>
+                <span class="label label-success">{{ batch.status }}</span>
+            </td>
+            <td>
+                <span>{{ batch.created }}</span>
+            </td>
+            <td>
+                <div class="buttons" ng-show="!rowform.$visible">
+                    <button class="btn btn-primary editable-table-button btn-xs" ng-click=goViewBatch(batch.code)>View</button>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
