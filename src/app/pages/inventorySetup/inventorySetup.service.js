@@ -8,10 +8,10 @@
         self = this;
         var url = "http://localhost:4000/api/Brand";
 
-        self.list = function () {
+        self.list = function (filters) {
             return $q(
                 function (resolve, reject) {
-                    $http.get(url)
+                    $http.get(url + "?filter=" + encodeURIComponent(filters))
                         .then(function (data) {
                             resolve(data);
                         }).catch(function (err) {

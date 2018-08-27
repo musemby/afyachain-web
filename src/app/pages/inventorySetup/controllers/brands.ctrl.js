@@ -27,13 +27,12 @@
 
         var email = atob(token);
         $scope.currentUser = 'org.afyachain.ChainParticipant#' + email;
-
         $scope.imageSrc = "";
-
+        
         $scope.$on("fileProgress", function (e, progress) {
             $scope.progress = progress.loaded / progress.total;
         });
-
+        
         $scope.altInputFormats = ['yyyy-MM-ddTHH:mm:ss.sss'];
         $scope.brandData = {
             brandId: Math.floor(Math.random() * 100000),
@@ -43,8 +42,11 @@
         $scope.newBatchData = {};
         $scope.dispatchBatchData = {};
         $scope.title = 'Create Brand';
+        
+        var brandOwnerFilter = '{"where":{"owner": "resource:{0}"}}'.format($scope.currentUser);
+        console.log(brandOwnerFilter);
 
-        brandService.list()
+        brandService.list(brandOwnerFilter)
             .then(function (data) {
                 $scope.brands = data.data;
             }).catch(function (err) {

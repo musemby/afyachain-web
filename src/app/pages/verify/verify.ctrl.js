@@ -2,9 +2,9 @@
     'use strict';
 
     angular.module('BlurAdmin.pages.verify')
-        .controller('VerifyCtrl', ["$scope", "BatchService", "afyaAlert", VerifyCtrl]);
+        .controller('VerifyCtrl', ["$scope", "$state", "BatchService", "afyaAlert", VerifyCtrl]);
 
-    function VerifyCtrl($scope, batchSvc, afyaAlert) {
+    function VerifyCtrl($scope, $state, batchSvc, afyaAlert) {
         var token = Cookies.get('afyatoken');
         var email = atob(token);
         $scope.currentUser = 'org.afyachain.ChainParticipant#' + email;
@@ -25,6 +25,7 @@
             batchSvc.verifyBatch($scope.batchCode)
             .then(function (data) {
                 afyaAlert.success("The batch {0} has been successfully verified and received".format($scope.batchCode.code));
+                $state.reload();
             }).catch(function (err) {
                 afyaAlert.error(err);
             });
