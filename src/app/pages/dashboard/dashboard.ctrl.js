@@ -8,8 +8,6 @@
         var token = $location.search().token;
         if(token) {
             Cookies.set('afyatoken', token);
-            console.log(Cookies.get('afyatoken'));
-            // history.replaceState({}, null, "/index.html");
         }
     }
 })();
