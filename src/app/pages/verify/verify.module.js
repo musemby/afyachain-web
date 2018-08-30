@@ -25,7 +25,7 @@
                 views: {
                     "content@": {
                         templateUrl: 'app/pages/verify/tpls/verify-batch.html',
-                        controller: 'VerifyCtrl',
+                        controller: 'VerifyBatchCtrl',
                     }
                 },
                 title: 'Batches',
@@ -39,7 +39,7 @@
                 views: {
                     "content@": {
                         templateUrl: 'app/pages/verify/tpls/verify-units.html',
-                        controller: 'VerifyCtrl',
+                        controller: 'VerifyUnitCtrl',
                     }
                 }
             });

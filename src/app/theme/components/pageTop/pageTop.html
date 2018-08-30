@@ -10,10 +10,11 @@
   <div class="user-profile clearfix">
     <div class="al-user-profile" uib-dropdown>
       <a uib-dropdown-toggle class="profile-toggle-link">
-        <p>vjbdfvdfvdkjfb</p>
+        <img ng-src="{{::( 'Nasta' | profilePicture )}}">
       </a>
       <ul  class="top-dropdown-menu profile-dropdown" uib-dropdown-menu>
         <li><i class="dropdown-arr"></i></li>
+        <li class="signout">{{ user.name }}</li>
         <li><a ng-click="logOut()" class="signout"><i class="fa fa-power-off"></i>Sign Out</a></li>
       </ul>
     </div>

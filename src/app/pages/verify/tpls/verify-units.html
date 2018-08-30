@@ -1,6 +1,53 @@
 <div class="row">
-    <div class="col-md-12" ba-panel ba-panel-title="Batch Details" ba-panel-class="with-scroll">
-       <p>Code: {{batch.code}}</p>
-       <p>Status: {{batch.status}}</p>
+    <div class="col-xs-12" ba-panel ba-panel-title="Batch Details" ba-panel-class="with-scroll">
+        <div class="col-xs-6">
+            <p> <span class="batch-info-label">Code:</span> {{batch.code}}</p>
+            <p><span class="batch-info-label">Status:</span> <span class="label label-primary">{{batch.status}}</span></p>
+        </div>
+        <div class="col-xs-6">
+            <p><span class="batch-info-label">Manufactured On:</span> {{batch.manufactureDate | date}}</p>
+            <p><span class="batch-info-label">Expires On:</span> {{batch.expiryDate | date}}</p>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12" ba-panel ba-panel-title="Scan or Type the Unit Code Below to Verify" ba-panel-class="with-scroll">
+        <form class="row form-inline">
+            <div class="form-group col-xs-8">
+                <input type="text" ng-model="toVerify.code" class="form-control" id="code">
+            </div>
+            <div class="col-xs-4">
+                <button ng-click="verifyUnit()" class="btn btn-primary">Verify and Receive Unit</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12" ba-panel ba-panel-title="Received Units" ba-panel-class="with-scroll">
+        <table ng-hide="showBatchCreate" class="table table-bordered table-hover table-condensed">
+            <tr>
+                <td></td>
+                <td>Code</td>
+                <td>Status</td>
+                <td>Actions</td>
+            </tr>
+            <tr ng-repeat="unit in units" class="editable-row">
+                <td>
+                    {{$index + 1}}
+                </td>
+                <td>
+                    <span>{{ unit.code }}</span>
+                </td>
+                <td>
+                    <span class="label label-success">{{ unit.status }}</span>
+                </td>
+                <td>
+                    <div class="buttons" ng-show="!rowform.$visible">
+                        <button class="btn btn-primary editable-table-button btn-xs" ng-click=goVerifyUnits(batch.code)>View</button>
+                    </div>
+                </td>
+            </tr>
+        </table>
     </div>
 </div>

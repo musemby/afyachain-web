@@ -25,6 +25,18 @@
             })
         };
 
+        self.get = function (email) {
+            return $q(
+                function (resolve, reject) {
+                    $http.get(url + "/" + email)
+                        .then(function (data) {
+                            resolve(data);
+                        }).catch(function (err) {
+                            reject(err);
+                        });
+                })
+        };
+
         self.create = function (payload) {
             return $q(
                 function (resolve, reject) {

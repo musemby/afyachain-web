@@ -109,6 +109,7 @@
         self = this;
         var url = "http://localhost:4000/api/Unit";
         var getByBatchUrl = 'http://localhost:4000/api/queries/getUnitsByBatch?batch=';
+        var verifyUnitUrl = 'http://localhost:4000/api/VerifyUnit';
 
         self.list = function (filters) {
             return $q(
@@ -134,15 +135,28 @@
             })
         };
 
-        self.getByBatch = function (batch) {
+        self.getByBatch = function (batch, filters) {
             return $q(
                 function (resolve, reject) {
-                    $http.get(getByBatchUrl + batch)
+                    $http.get(getByBatchUrl + encodeURIComponent(batch) + '&filter=' + encodeURIComponent(filters))
                     .then(function (data) {
                         resolve(data);
                     }).catch(function (err) {
                         reject(err);
                     });
+                }
+            )
+        };
+
+        self.verifyUnit = function (unitData) {
+            return $q(
+                function (resolve, reject) {
+                    $http.post(verifyUnitUrl, unitData)
+                    .then(function (data) {
+                        resolve(data);
+                    }).catch(function (err) {
+                        reject(err);
+                    })
                 }
             )
         }
