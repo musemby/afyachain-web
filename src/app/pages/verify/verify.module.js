@@ -33,6 +33,15 @@
                     // icon: 'ion-gear-a',
                     order: 800,
                 },
+            })
+            .state('verify.listBrands.units', {
+                url: '/batches/:batchCode/verifyUnits',
+                views: {
+                    "content@": {
+                        templateUrl: 'app/pages/verify/tpls/verify-units.html',
+                        controller: 'VerifyCtrl',
+                    }
+                }
             });
     }
 })();

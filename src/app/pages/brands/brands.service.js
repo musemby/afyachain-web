@@ -108,6 +108,7 @@
     function UnitService($http, $q) {
         self = this;
         var url = "http://localhost:4000/api/Unit";
+        var getByBatchUrl = 'http://localhost:4000/api/queries/getUnitsByBatch?batch=';
 
         self.list = function (filters) {
             return $q(
@@ -132,6 +133,19 @@
                     });
             })
         };
+
+        self.getByBatch = function (batch) {
+            return $q(
+                function (resolve, reject) {
+                    $http.get(getByBatchUrl + batch)
+                    .then(function (data) {
+                        resolve(data);
+                    }).catch(function (err) {
+                        reject(err);
+                    });
+                }
+            )
+        }
     }
 }
 )();
