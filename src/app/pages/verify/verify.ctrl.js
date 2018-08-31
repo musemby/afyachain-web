@@ -29,7 +29,7 @@
         $scope.verifyCode = function () {
             batchSvc.verifyBatch($scope.batchCode)
             .then(function (data) {
-                afyaAlert.success("The batch {0} has been successfully verified and received".format($scope.batchCode.code));
+                afyaAlert.success("The unit {0} has been successfully verified and received".format($scope.batchCode.code));
                 $state.reload();
             }).catch(errorHandler);
         };
