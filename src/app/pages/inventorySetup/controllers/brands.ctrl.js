@@ -8,6 +8,7 @@
                 "BatchService", "ParticipantsService", "UnitService", "afyaAlert",
             "fileReader", "baProgressModal", "$uibModal", "$timeout", BrandController]);
 
+    // add python style {}.format to strings
     String.prototype.format = function () {
         var a = this;
         for (var k in arguments) {

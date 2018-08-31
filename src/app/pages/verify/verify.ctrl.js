@@ -3,7 +3,8 @@
 
     angular.module('BlurAdmin.pages.verify')
         .controller('VerifyBatchCtrl', ["$scope", "$state", "BatchService", 'UnitService', "afyaAlert", VerifyBatchCtrl])
-        .controller('VerifyUnitCtrl', ["$scope", "$state", "BatchService", 'UnitService', "afyaAlert", VerifyUnitCtrl]);
+        .controller('VerifyUnitCtrl', ["$scope", "$state", "BatchService",
+            'UnitService', 'ParticipantsService', "afyaAlert", "$uibModal", VerifyUnitCtrl]);
         
 
     function VerifyBatchCtrl($scope, $state, batchSvc, unitSvc, afyaAlert) {
@@ -39,10 +40,11 @@
     }
 
 
-    function VerifyUnitCtrl($scope, $state, batchSvc, unitSvc, afyaAlert) {
+    function VerifyUnitCtrl($scope, $state, batchSvc, unitSvc, participantSvc, afyaAlert, $uibModal) {
         function errorHandler(err) {
             afyaAlert.error(err);
         }
+        $scope.dispatchBatchData = {};
 
         var batchCode = $state.params.batchCode;
         var batch = 'resource:org.afyachain.Batch#{0}'.format(batchCode);
@@ -83,6 +85,49 @@
             afyaAlert.success("The batch {0} has been successfully verified and received".format($scope.toVerify.code));
             $state.reload();
         }).catch(errorHandler);
+        }
+
+        // dispatch batch stuff
+        $scope.open = function (page, size) {
+            $uibModal.open({
+                animation: true,
+                templateUrl: page,
+                size: size,
+                resolve: {
+                    items: function () {
+                        return $scope.items;
+                    }
+                }
+            });
+        };
+
+        var recipientFilter = '{"where":{"type": "SUPPLIER","type": "RETAILER"}}';
+        participantSvc.list(recipientFilter)
+            .then(function (data) {
+                $scope.recipientsList = data.data;
+            }).catch(function (err) {
+                afyaAlert.error(err);
+            });
+
+        $scope.dispatchBatch = function () {
+            console.log($scope.dispatchBatchData);
+            var owner = $scope.dispatchBatchData.owner;
+            var disBatch = "resource:org.afyachain.Batch#{0}".format($scope.batch.code);
+            var recipient = "resource:org.afyachain.ChainParticipant#{0}".format(owner.email);
+            var toPost = {
+                batch: disBatch,
+                recipient: recipient,
+                dispatchedOn: String(new Date),
+                user: $scope.currentUser
+            };
+
+        batchSvc.dispatch(toPost)
+        .then(function (data) {
+            afyaAlert.success('The batch was successfully dispatched to {0}'.format(owner.name));
+            $state.reload();
+        }).catch(function (err) {
+            afyaAlert.error(err);
+        })
         }
     }
 }

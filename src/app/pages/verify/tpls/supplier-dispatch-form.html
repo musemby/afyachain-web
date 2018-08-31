@@ -1,9 +1,11 @@
-<div class="modal-content" ng-controller="BlurAdmin.pages.inventorySetup.controllers.brands">
+<div class="modal-content" ng-controller="VerifyUnitCtrl">
     <div class="modal-header">
         <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
             <em class="ion-ios-close-empty sn-link-close"></em>
         </button>
-        <h4 class="modal-title" id="myModalLabel"><strong>Dispatch Batch #{{ editBatchData.code }}</strong></h4>
+        <h4 class="modal-title" id="myModalLabel">
+            <strong>Dispatch Batch #{{ batch.code }}</strong>
+        </h4>
     </div>
     <div class="modal-body">
         <form>
