@@ -11,6 +11,7 @@
         function errorHandler(err) {
             afyaAlert.error(err);
         }
+        $scope.isSupplier = false;
 
         var token = Cookies.get('afyatoken');
         var email = atob(token);
@@ -45,6 +46,7 @@
             afyaAlert.error(err);
         }
         $scope.dispatchBatchData = {};
+        $scope.isSupplier = false;
 
         var batchCode = $state.params.batchCode;
         var batch = 'resource:org.afyachain.Batch#{0}'.format(batchCode);

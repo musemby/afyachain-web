@@ -17,42 +17,29 @@
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, options) {
       var token = Cookies.get('afyatoken');
       if (!token && fromState.name != "") {
-        console.log('Noooo token');
         window.location = 'http://localhost:3000/login.html';
       }
     });
+    $rootScope.participantType = Cookies.get('type');
+    $rootScope.email = Cookies.get('email');
+    $rootScope.participantName = Cookies.get('name');
 
     $rootScope.logOut = function () {
       Cookies.remove('afyatoken');
+      Cookies.remove('email');
+      Cookies.remove('name');
+      Cookies.remove('type');
       console.log(Cookies.get('afyatoken'))
       window.location = 'http://localhost:3000/login.html';
     }
   });
-
 
   /** @ngInject */
   function routeConfig($urlRouterProvider, baSidebarServiceProvider) {
     $urlRouterProvider.otherwise('/dashboard');
 
     baSidebarServiceProvider.addStaticItem({
-      title: 'Pages',
-      icon: 'ion-document',
-      subMenu: [{
-        title: 'Sign In',
-        fixedHref: 'auth.html',
-        blank: true
-      }, {
-        title: 'Sign Up',
-        fixedHref: 'reg.html',
-        blank: true
-      }, {
-        title: 'User Profile',
-        stateRef: 'profile'
-      }, {
-        title: '404 Page',
-        fixedHref: '404.html',
-        blank: true
-      }]
+     
     });
   }
 

@@ -14,8 +14,7 @@ angular.module('BlurAdmin', [
   'ngJsTree',
   'angular-progress-button-styles',
   'angularFileUpload',
-  // 'ngCookies',
-
+  'ja.qr',
   'BlurAdmin.theme',
   'BlurAdmin.pages',
   'BlurAdmin.auth',

@@ -2,10 +2,11 @@
     'use strict';
         
     angular.module('BlurAdmin.pages.dashboard')
-        .controller('DashboardCtrl', ['$rootScope', '$scope', '$location', 'ParticipantsService', DashboardCtrl]);
+        .controller('DashboardCtrl', ['$rootScope', '$scope', '$state', '$location', 'ParticipantsService', DashboardCtrl]);
         
-    function DashboardCtrl($rootScope, $scope, $location, patSvc) {
-        var token = $location.search().token;
+    function DashboardCtrl($rootScope, $scope, $state, $location, patSvc) {
+        var token = $state.params.token;
+        console.log(token);
         if(token) {
             Cookies.set('afyatoken', token);
         }

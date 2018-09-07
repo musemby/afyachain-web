@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+e<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -13,6 +13,7 @@
   <link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon-96x96.png">
 
   <script src="../bower_components/angular/angular.js"></script>
+  <script type="text/javascript" src="../bower_components/js-cookie/src/js.cookie.js"></script>
 
   <!-- build:css({.tmp/serve,src}) styles/vendor.css -->
   <!-- bower:css -->
@@ -35,8 +36,11 @@
 
         $http.post(url, $scope.participant)
         .then(function (data) {
+          document.cookie = "email=" + data.data.email;
+          document.cookie = "name=" + data.data.name;
+          document.cookie = "type=" + data.data.type;
           var token = btoa(data.data.email);
-          window.location = 'http://localhost:3000/#/dashboard?token=' + token;
+          window.location = 'http://localhost:3000/#!/dashboard/' + token;
         }).catch(function (err) {
           console.log(err)
         })

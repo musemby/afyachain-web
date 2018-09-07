@@ -24,7 +24,22 @@
             icon: 'ion-android-home',
             order: 0,
           },
+        })
+        .state('dashboard.token', {
+          url: '/:token',
+          views: {
+            "content@": {
+              templateUrl: 'app/pages/dashboard/dashboard.html',
+              controller: 'DashboardCtrl'
+            }
+          },
+          title: 'Dashboard',
+          sidebarMeta: {
+            icon: 'ion-android-home',
+            order: 0,
+          },
         });
+
   }
 
 })();

@@ -22,6 +22,7 @@
         sidebarMeta: {
           icon: 'ion-gear-a',
           order: 800,
+          showItem: true
         },
         })
       .state('inventorySetup.listBrands', {
@@ -36,6 +37,7 @@
         sidebarMeta: {
           icon: 'ion-gear-a',
           order: 800,
+          showItem: true
         },
         })
       .state('inventorySetup.createBrand', {
@@ -50,6 +52,7 @@
         sidebarMeta: {
           icon: 'ion-gear-a',
           order: 800,
+          showItem: true
         },
       })
       .state('inventorySetup.editBrand', {
@@ -64,6 +67,7 @@
         sidebarMeta: {
           icon: 'ion-gear-a',
           order: 800,
+          showItem: 'true'
         },
       })
       .state('inventorySetup.editBrand.editBatch', {
