@@ -97,7 +97,7 @@
                     batchSvc.put(batchId, toSave)
                     .then(function(data) {
                         afyaAlert.success("The batch was successfully updated.");
-                    }).then(function(err) {
+                    }).catch(function(err) {
                         afyaAlert.error(err);
                     });
                 } else {
@@ -169,6 +169,23 @@
                 })
             }
         }
+
+        // print labels logic
+        $scope.moveToPrinted = function (batchCode) {
+            var printedBatch = Object.assign({}, $scope.editBatchData);
+            var data = {
+                batchCode: printedBatch.code,
+                user: $scope.currentUser
+            };
+            console.log(data)
+            batchSvc.printLabels(data)
+                .then(function (data) {
+                    $state.reload();
+                    afyaAlert.success("The labels for this batch and its units have been successfully printed.");
+                }).catch(function (err) {
+                    afyaAlert.error(err);
+                });
+        };
 
         $scope.saveBrand = function () {
             var putData = Object.assign({}, $scope.brandData);

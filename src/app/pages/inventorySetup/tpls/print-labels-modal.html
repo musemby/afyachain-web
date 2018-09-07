@@ -1,0 +1,11 @@
+<div class="modal-content" ng-controller="BlurAdmin.pages.inventorySetup.controllers.brands">
+    <div class="modal-header bg-info">
+        <i class="ion-information-circled modal-icon"></i>
+        <span>Confirmation</span>
+    </div>
+    <div class="modal-body text-center">Print labels for batch number {{batchCode}}?</div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success pull-left" ng-click="$dismiss();moveToPrinted(batchCode)">Yes</button>
+        <button type="button" class="btn btn-danger pull-right" ng-click="$dismiss()">No</button>
+    </div>
+</div>

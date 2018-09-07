@@ -4,11 +4,7 @@
             <button class="btn btn-success pull-right m-b-5" data-toggle="modal" ng-click="open('app/pages/inventorySetup/tpls/dispatch-form-modal.html', 'md')">Dispatch Batch</button></h3>
         <div class="row">
             <div class="col-xs-12" ba-panel ba-panel-class="with-scroll">
-                <div class="panel-content">
-                    <h3 class="with-line pt-0">BATCH DETAILS
-                        <button ng-show="isSupplier" class="btn btn-success pull-right m-b-5" data-toggle="modal" ng-click="open('app/pages/verify/tpls/supplier-dispatch-form.html', 'md')">Dispatch Batch</button>
-                    </h3>
-                </div>
+        
                 <div class="col-xs-6">
                     <p>
                         <span class="batch-info-label">Code:</span> {{editBatchData.code}}</p>
@@ -99,16 +95,16 @@
                 </uib-tab>
                 <uib-tab heading="Labels">
                     <div class="panel-content">
-                        <h3 class="with-line pt-0">Batch Label</h3>
+                        <h3 class="with-line pt-0">Batch Label
+                            <button class="btn btn-primary pull-right m-b-5" data-toggle="modal" ng-click="open('app/pages/inventorySetup/tpls/print-labels-modal.html', 'md')">Print Labels</button>
+                        </h3>
                         <p style="text-align: center;"><qr text="batchCode" size=150></qr></p>
                         <p style="text-align: center;"><strong>{{batchCode}}</strong></p>
                         <h3 class="with-line pt-0">Unit Labels</h3>
                         <div ng-repeat="unit in units">
-                            <div ng-class="row|($index % 4 == 0)">
-                                <div class="col-xs-3">
-                                    <p><qr text="unit.code" size=100></qr></p>
-                                    <p><strong>{{unit.code}}</strong></p>
-                                </div>
+                            <div class="col-xs-3">
+                                <p><qr text="unit.code" size=100></qr></p>
+                                <p><strong>{{unit.code}}</strong></p>
                             </div>
                         </div>
                         <!-- <table class="table table-bordered table-hover table-condensed">

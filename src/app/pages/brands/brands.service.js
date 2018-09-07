@@ -29,6 +29,7 @@
         var urlCreate = "http://localhost:4000/api/createBatch";
         var urlDispatch = "http://localhost:4000/api/DispatchBatch";
         var urlVerifyBatch = "http://localhost:4000/api/VerifyBatch";
+        var urlPrintLabels = "http://localhost:4000/api/PrintLabels";
 
         self.list = function (filters) {
             return $q(
@@ -99,9 +100,20 @@
                         resolve(data);
                     }).catch(function (err) {
                         reject(err);
-                    })
-                }
-            )
+                    });
+                });
+        };
+
+        self.printLabels = function (payload) {
+            return $q(
+                function (resolve, reject) {
+                    $http.post(urlPrintLabels, payload)
+                    .then(function (data) {
+                        resolve(data);
+                    }).catch(function (err) {
+                        reject(err);
+                    });
+            });
         }
     }
 
