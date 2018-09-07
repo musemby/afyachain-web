@@ -127,7 +127,7 @@
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   border-bottom: 1px solid transparent;
-  background-color: $primary-light;
+  background-color: $sidebar;
   a {
     color: $label-text;
     &:hover {
@@ -141,7 +141,7 @@
     border: none;
     &:hover, &:focus {
       border: none;
-      background-color: $primary-light;
+      background-color: $sidebar;
     }
   }
   & > li.active > a {

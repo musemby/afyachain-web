@@ -23,6 +23,7 @@
         var token = Cookies.get('afyatoken');
         var brandId = $state.params.id;
         var batchId = $state.params.batchId;
+        $scope.batchCode = batchId;
         var manOpened = false;
         var expOpened = false;
 
