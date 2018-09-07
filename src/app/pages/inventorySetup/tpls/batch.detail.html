@@ -1,6 +1,7 @@
 <div ba-panel ba-panel-class="profile-page">
     <div class="panel-content">
-        <h3 class="with-line pt-0">{{brandData.name}}: <strong>Batch #{{ editBatchData.code }} </strong><button class="btn btn-success pull-right m-b-5" data-toggle="modal" ng-click="open('app/pages/inventorySetup/tpls/dispatch-form-modal.html', 'md')">Dispatch Batch</button></h3>
+        <h3 class="with-line pt-0">{{brandData.name}}: <strong>Batch #{{ editBatchData.code }} </strong>
+            <button class="btn btn-success pull-right m-b-5" data-toggle="modal" ng-click="open('app/pages/inventorySetup/tpls/dispatch-form-modal.html', 'md')">Dispatch Batch</button></h3>
         <div class="row">
             <div class="col-xs-12" ba-panel ba-panel-class="with-scroll">
                 <div class="panel-content">
@@ -24,75 +25,81 @@
                 </div>
             </div>
         </div>
-
-        <h3 class="with-line">Units</h3>
-        <div ba-panel ba-panel-class="with-scroll">
-            <div ng-if="showBatchCreate" ba-panel ba-panel-title="Create a Batch" ba-panel-class="with-scroll">
-                <form>
-                    <div class="form-group">
-                        <label for="name">Code</label>
-                        <input type="number" ng-model="batchData.code" class="form-control" id="code">
+        <uib-tabset active="$tabSetStatus.activeTab">
+            <uib-tab heading="Units">
+                <!-- <div class="class="p-r-0""> -->
+                    <div ng-if="showBatchCreate" ba-panel ba-panel-title="Create a Batch" ba-panel-class="with-scroll">
+                        <form>
+                            <div class="form-group">
+                                <label for="name">Code</label>
+                                <input type="number" ng-model="batchData.code" class="form-control" id="code">
+                            </div>
+                            <div class="form-group">
+                                <label for="manufactureDate">Manufacture Date</label>
+                                <p class="input-group">
+                                    <input type="text" class="form-control" uib-datepicker-popup="{{format}}" datepicker-options="options"
+                                        ng-model="newBatchData.manufactureDate" is-open="manOpened"
+                                        ng-required="true" close-text="Close" alt-input-formats="altInputFormats" show-button-bar="false" />
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="openManDatePicker()">
+                                            <i class="glyphicon glyphicon-calendar"></i>
+                                        </button>
+                                    </span>
+                                </p>
+                            </div>
+                            <div class="form-group">
+                                <label for="expiryDate">Expiry Date</label>
+                                <p class="input-group">
+                                    <input type="text" class="form-control" uib-datepicker-popup="{{format}}" datepicker-options="options" ng-model="newBatchData.expiryDate"
+                                        is-open="expOpened" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" show-button-bar="false"
+                                    />
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="openExpDatePicker()">
+                                            <i class="glyphicon glyphicon-calendar"></i>
+                                        </button>
+                                    </span>
+                                </p>
+                            </div>
+                            <button type="submit" ng-click="saveBatch()" class="btn btn-danger">Create Batch</button>
+                        </form>
                     </div>
-                    <div class="form-group">
-                        <label for="manufactureDate">Manufacture Date</label>
-                        <p class="input-group">
-                            <input type="text" class="form-control" uib-datepicker-popup="{{format}}" datepicker-options="options"
-                                   ng-model="newBatchData.manufactureDate" is-open="manOpened"
-                                   ng-required="true" close-text="Close" alt-input-formats="altInputFormats" show-button-bar="false" />
-                            <span class="input-group-btn">
-                                <button type="button" class="btn btn-default" ng-click="openManDatePicker()">
-                                    <i class="glyphicon glyphicon-calendar"></i>
-                                </button>
-                            </span>
-                        </p>
-                    </div>
-                    <div class="form-group">
-                        <label for="expiryDate">Expiry Date</label>
-                        <p class="input-group">
-                            <input type="text" class="form-control" uib-datepicker-popup="{{format}}" datepicker-options="options" ng-model="newBatchData.expiryDate"
-                                is-open="expOpened" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" show-button-bar="false"
-                            />
-                            <span class="input-group-btn">
-                                <button type="button" class="btn btn-default" ng-click="openExpDatePicker()">
-                                    <i class="glyphicon glyphicon-calendar"></i>
-                                </button>
-                            </span>
-                        </p>
-                    </div>
-                    <button type="submit" ng-click="saveBatch()" class="btn btn-danger">Create Batch</button>
-                </form>
-            </div>
-            <table ng-hide="showBatchCreate" class="table table-bordered table-hover table-condensed">
-                <tr>
-                    <td></td>
-                    <td>Code</td>
-                    <td>Status</td>
-                    <td>Sold</td>
-                    <td>Created On</td>
-                    <!-- <td>Actions</td> -->
-                </tr>
-                <tr ng-repeat="unit in units" class="editable-row">
-                    <td>
-                        {{$index + 1}}
-                    </td>
-                    <td>
-                        <span>{{ unit.code }}</span>
-                    </td>
-                    <td class="select-td">
-                        <span class="label label-success">{{ unit.status }}</span>
-                    </td>
-                    <td class="select-td">
-                        <span>{{ unit.sold }}</span>
-                    </td>
-                    <td class="select-td">
-                        <span>{{ unit.created }}</span>
-                    </td>
-                    <!-- <td>
-                        <div class="buttons" ng-show="!rowform.$visible">
-                            <button class="btn btn-primary editable-table-button btn-xs">View</button>
-                        </div>
-                    </td> -->
-                </tr>
-            </table>
-        </div>
+                    <table ng-hide="showBatchCreate" class="table table-bordered table-hover table-condensed">
+                        <tr>
+                            <td></td>
+                            <td>Code</td>
+                            <td>Status</td>
+                            <td>Sold</td>
+                            <td>Created On</td>
+                            <!-- <td>Actions</td> -->
+                        </tr>
+                        <tr ng-repeat="unit in units" class="editable-row">
+                            <td>
+                                {{$index + 1}}
+                            </td>
+                            <td>
+                                <span>{{ unit.code }}</span>
+                            </td>
+                            <td class="select-td">
+                                <span class="label label-success">{{ unit.status }}</span>
+                            </td>
+                            <td class="select-td">
+                                <span>{{ unit.sold }}</span>
+                            </td>
+                            <td class="select-td">
+                                <span>{{ unit.created }}</span>
+                            </td>
+                            <!-- <td>
+                                <div class="buttons" ng-show="!rowform.$visible">
+                                    <button class="btn btn-primary editable-table-button btn-xs">View</button>
+                                </div>
+                            </td> -->
+                        </tr>
+                    </table>
+                <!-- </div> -->
+                </uib-tab>
+                <uib-tab heading="Labels">
+                    bdfvhfdvjbhbdfbjhfdbvhjfdvbhj
+                </uib-tab>
+        </uib-tabset>
     </div>
+</div>

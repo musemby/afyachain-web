@@ -16,7 +16,7 @@
                 },
                 title: 'Verify',
                 sidebarMeta: {
-                    icon: 'ion-gear-a',
+                    icon: 'ion-checkmark-circled',
                     order: 800,
                 },
             })
@@ -30,7 +30,6 @@
                 },
                 title: 'Batches',
                 sidebarMeta: {
-                    // icon: 'ion-gear-a',
                     order: 800,
                 },
             })
