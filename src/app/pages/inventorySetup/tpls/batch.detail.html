@@ -2,43 +2,26 @@
     <div class="panel-content">
         <h3 class="with-line pt-0">{{brandData.name}}: <strong>Batch #{{ editBatchData.code }} </strong><button class="btn btn-success pull-right m-b-5" data-toggle="modal" ng-click="open('app/pages/inventorySetup/tpls/dispatch-form-modal.html', 'md')">Dispatch Batch</button></h3>
         <div class="row">
-            <div class="col-md-3">
-                <div class="form-group row clearfix">
-                    <div class="col-sm-9">
-                        <div class="userpic">
-                            <div class="userpic-wrapper">
-                                <img ng-src="{{ picture }}" ng-click="uploadPicture()">
-                            </div>
-                            <i class="ion-ios-close-outline" ng-click="removePicture()" ng-if="!noPicture"></i>
-                            <a href class="change-userpic" ng-click="uploadPicture()">Change Logo</a>
-                            <input type="file" ng-show="false" id="uploadFile" ng-file-select="onFileSelect($files)">
-                        </div>
-                    </div>
+            <div class="col-xs-12" ba-panel ba-panel-class="with-scroll">
+                <div class="panel-content">
+                    <h3 class="with-line pt-0">BATCH DETAILS
+                        <button ng-show="isSupplier" class="btn btn-success pull-right m-b-5" data-toggle="modal" ng-click="open('app/pages/verify/tpls/supplier-dispatch-form.html', 'md')">Dispatch Batch</button>
+                    </h3>
                 </div>
-            </div>
-            <div class="col-md-9">
-                 <div class="form-group">
-                     <label for="name">Status</label><br>
-                     <span class="label label-primary">{{ editBatchData.status }}</span>
-                </div>
-                <div class="form-group">
-                    <label for="name">Code</label>
-                    <input type="text" ng-model="editBatchData.code" class="form-control" id="code">
-                </div>
-                <div class="form-group">
-                    <label for="manufactureDate">Manufacture Date</label>
-                    <p class="input-group">
-                        <input type="date"  uib-datepicker-popup="{{format}}" class="form-control" ng-model="editBatchData.manufactureDate">
+                <div class="col-xs-6">
+                    <p>
+                        <span class="batch-info-label">Code:</span> {{editBatchData.code}}</p>
+                    <p>
+                        <span class="batch-info-label">Status:</span>
+                        <span class="label label-primary">{{editBatchData.status}}</span>
                     </p>
                 </div>
-                <div class="form-group">
-                    <label for="manufactureDate">Expiry Date</label>
-                    <p class="input-group">
-                        <input type="date" uib-datepicker-popup="{{format}}" class="form-control" ng-model="editBatchData.expiryDate">
-                    </p>
+                <div class="col-xs-6">
+                    <p>
+                        <span class="batch-info-label">Manufactured On:</span> {{editBatchData.manufactureDate | date}}</p>
+                    <p>
+                        <span class="batch-info-label">Expires On:</span> {{editBatchData.expiryDate | date}}</p>
                 </div>
-                <button type="submit" ng-click="saveBatch()" class="btn btn-default btn-with-icon pull-right">
-                    <i class="fa fa-pencil"></i>Save Changes</button>
             </div>
         </div>
 

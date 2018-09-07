@@ -6,7 +6,6 @@
         
     function DashboardCtrl($rootScope, $scope, $state, $location, patSvc) {
         var token = $state.params.token;
-        console.log(token);
         if(token) {
             Cookies.set('afyatoken', token);
         }
@@ -14,7 +13,6 @@
         patSvc.get(email)
         .then(function (data) {
             $rootScope.user = data.data;
-            console.log($rootScope.user);
         }).catch(function (err) {
             console.log(err);
         })
