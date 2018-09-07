@@ -6,6 +6,10 @@
 
     /** @ngInject */
     function routeConfig($stateProvider) {
+        var userType = Cookies.get('type');
+        if (userType == 'MANUFACTURER') {
+            return
+        }
         $stateProvider
             .state('verify', {
                 url: '/verify',
@@ -14,7 +18,7 @@
                         template: '<ui-view autoscroll="true" autoscroll-body-top></ui-view>',
                     }
                 },
-                title: 'Verify',
+                title: 'Verify & Track',
                 sidebarMeta: {
                     icon: 'ion-checkmark-circled',
                     order: 800,
