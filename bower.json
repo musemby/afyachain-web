@@ -56,7 +56,8 @@
     "angular-ui-select": "^0.19.6",
     "ng-file-upload": "^12.2.13",
     "angular-file-upload": "^2.5.0 ",
-    "angular-qr": "^0.2.0"
+    "angular-qr": "^0.2.0",
+    "js-cookie": "~2.2.0"
   },
   "resolutions": {
     "angular": "~1.5.9",
