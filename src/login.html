@@ -39,8 +39,8 @@ e<!DOCTYPE html>
           document.cookie = "email=" + data.data.email;
           document.cookie = "name=" + data.data.name;
           document.cookie = "type=" + data.data.type;
-          var token = btoa(data.data.email);
-          window.location = 'http://localhost:3000/#!/dashboard/' + token;
+          document.cookie = "afyatoken=" + btoa(data.data.email);
+          window.location = 'http://localhost:3000/#/dashboard/';
         }).catch(function (err) {
           console.log(err)
         })
