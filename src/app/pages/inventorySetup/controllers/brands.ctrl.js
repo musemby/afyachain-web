@@ -46,7 +46,6 @@
         $scope.title = 'Create Brand';
         
         var brandOwnerFilter = '{"where":{"owner": "resource:{0}"}}'.format($scope.currentUser);
-        console.log(brandOwnerFilter);
 
         brandService.list(brandOwnerFilter)
             .then(function (data) {
@@ -177,7 +176,6 @@
                 batchCode: printedBatch.code,
                 user: $scope.currentUser
             };
-            console.log(data)
             batchSvc.printLabels(data)
                 .then(function (data) {
                     $state.reload();
@@ -200,7 +198,6 @@
                     });
             } else {
                 $scope.brandData.ingredients = $scope.brandData.ingredients.split(",");
-                console.log($scope.currentUser)
                 $scope.brandData.owner = $scope.currentUser;
                 $scope.brandData.createdBy = $scope.currentUser;
                 $scope.brandData.updatedBy = $scope.currentUser;
@@ -233,6 +230,11 @@
         $scope.openExpDatePicker = function () {
             $scope.expOpened = !expOpened;
         };
+
+        // TIMELINE batch
+        
+        $scope.manufactureDate
+        $scope.manufactureOn
 
         // brand logo logic
         $scope.picture = $filter('profilePicture')('Logo');

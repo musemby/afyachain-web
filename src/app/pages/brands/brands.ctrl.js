@@ -37,7 +37,6 @@
         $scope.createToken = function(type) {
             tokenSvc.create({})
             .then(function (data) {
-                console.log(data);
                 return data;
             }).catch(function(err) {
                 console.log(err)
