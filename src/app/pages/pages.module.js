@@ -32,6 +32,10 @@
       console.log(Cookies.get('afyatoken'))
       window.location = 'http://localhost:3000/login.html';
     }
+
+    // reset alerts
+    $rootScope.showSuccess = false;
+    $rootScope.showFailure = false;
   });
 
   /** @ngInject */

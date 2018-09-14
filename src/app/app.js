@@ -15,6 +15,7 @@ angular.module('BlurAdmin', [
   'angular-progress-button-styles',
   'angularFileUpload',
   'ja.qr',
+  'ngSanitize',
   'BlurAdmin.theme',
   'BlurAdmin.pages',
   'BlurAdmin.auth',
