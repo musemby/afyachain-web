@@ -232,9 +232,60 @@
         };
 
         // TIMELINE batch
-        
-        $scope.manufactureDate
-        $scope.manufactureOn
+        var payload = {
+            batch: 'resource:org.afyachain.Batch#{0}'.format(batchId)
+        }
+        batchSvc.getActivities(payload)
+        .then(function(data) {
+            var items = data.data;
+            $scope.timelineItems = {};
+
+            items.forEach(function (item) {
+                if (item.logType == 'PRODUCED') {
+                    var timelineObject = {
+                        available: true,
+                        producedBy: item.fromName,
+                        producedOn: item.occurredOn
+                    };
+                    $scope.timelineItems.PRODUCED = timelineObject
+                } else if (item.logType == 'SUPPLIER_DISPATCHED') {
+                    var timelineObject = {
+                        available: true,
+                        dispatchedBy: item.fromName,
+                        dispatchedTo: item.toName,
+                        dispatchedOn: item.occurredOn
+                    };
+                    $scope.timelineItems.SUPPLIER_DISPATCHED = timelineObject;
+                } else if (item.logType == 'SUPPLIER_RECEIVED') {
+                    var timelineObject = {
+                        available: true,
+                        receivedBy: item.toName,
+                        receivedFrom: item.fromName,
+                        receivedOn: item.occurredOn
+                    };
+                    $scope.timelineItems.SUPPLIER_RECEIVED = timelineObject;
+                } else if (item.logType == 'RETAILER_DISPATCHED') {
+                    var timelineObject = {
+                        available: true,
+                        dispatchedBy: item.fromName,
+                        dispatchedTo: item.toName,
+                        dispatchedOn: item.occurredOn
+                    };
+                    $scope.timelineItems.RETAILER_DISPATCHED = timelineObject;
+                } else if (item.logType == 'RETAILER_RECEIVED') {
+                    var timelineObject = {
+                        available: true,
+                        receivedBy: item.toName,
+                        receivedFrom: item.fromName,
+                        receivedOn: item.occurredOn
+                    };
+                    $scope.timelineItems.RETAILER_RECEIVED = timelineObject;
+                }
+            });
+            console.log('ddddd ', $scope.timelineItems);
+        }).catch(function (err) {
+            afyaAlert.error(err);
+        });
 
         // brand logo logic
         $scope.picture = $filter('profilePicture')('Logo');

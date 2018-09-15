@@ -30,6 +30,7 @@
         var urlDispatch = "http://localhost:4000/api/DispatchBatch";
         var urlVerifyBatch = "http://localhost:4000/api/VerifyBatch";
         var urlPrintLabels = "http://localhost:4000/api/PrintLabels";
+        var urlGetActivities = "http://localhost:4000/api/GetActivities";
 
         self.list = function (filters) {
             return $q(
@@ -114,7 +115,19 @@
                         reject(err);
                     });
             });
-        }
+        };
+
+        self.getActivities = function (payload) {
+            return $q(
+                function (resolve, reject) {
+                    $http.post(urlGetActivities, payload)
+                    .then(function (data) {
+                        resolve(data);
+                    }).catch(function (err) {
+                        reject(err);
+                    });
+                })
+            };
     }
 
     function UnitService($http, $q) {

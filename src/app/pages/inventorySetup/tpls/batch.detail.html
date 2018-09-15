@@ -105,41 +105,40 @@
                     </div>
                 </uib-tab>
                 <uib-tab heading="Track">
-                    <div ba-panel>
-                        <section id="cd-timeline" class="cd-container cssanimations" ng-controller="BlurAdmin.pages.inventorySetup.controllers.brands">
-                            <div class="cd-timeline-block">
+                    <div ba-panel ng-controller="BlurAdmin.pages.inventorySetup.controllers.brands">
+                        <section id="cd-timeline" class="cd-container cssanimations">
+                            <div class="cd-timeline-block" ng-if="timelineItems.PRODUCED.available">
                                 <div class="cd-timeline-img">
                                     <div class="kameleon-icon with-round-bg warning">
                                         <img ng-src="{{::( 'Euro-Coin' | kameleonImg )}}">
                                     </div>
                                 </div>
                     
-                                <div class="cd-timeline-content primary">
-                                    <h5>Manufactured</h5>
+                                <div class="cd-timeline-content success">
+                                    <h5>MANUFACTURED</h5>
                                     <hr>
-                                    <p>By: {{ manufacturedBy }}</p>
-                                    <p>On: {{ manufactureOn }}</p>
-                                    <span class="cd-date">Jan 14</span>
+                                    <p>By: {{ timelineItems.PRODUCED.producedBy }}</p>
+                                    <p>On: {{ timelineItems.PRODUCED.producedOn | date}}</p>
                                 </div>
                             </div>
                     
-                            <div class="cd-timeline-block">
+                            <div class="cd-timeline-block" ng-if="timelineItems.SUPPLIER_DISPATCHED.available">
                                 <div class="cd-timeline-img">
                                     <div class="kameleon-icon with-round-bg danger">
                                         <img ng-src="{{::( 'Laptop-Signal' | kameleonImg )}}">
                                     </div>
                                 </div>
-                    
-                                <div class="cd-timeline-content">
-                                    <h5>Title of section 2</h5>
-                    
-                                    <p>Donec dapibus at leo eget volutpat. Praesent dolor tellus, ultricies venenatis molestie eu, luctus eget nibh.
-                                        Curabitur ullamcorper eleifend nisl.</p>
-                                    <span class="cd-date">Jan 18</span>
+
+                                <div class="cd-timeline-content danger">
+                                    <h5>SUPPLIER DISPATCHED</h5>
+                                    <hr>
+                                    <p>Dispatched By: {{ timelineItems.SUPPLIER_DISPATCHED.dispatchedBy }}</p>
+                                    <p>Dispatched To: {{ timelineItems.SUPPLIER_DISPATCHED.dispatchedTo }}</p>
+                                    <p>Dispatched On: {{ timelineItems.SUPPLIER_DISPATCHED.dispatchedOn | date }}</p>
                                 </div>
                             </div>
-                    
-                            <div class="cd-timeline-block">
+
+                            <div class="cd-timeline-block" ng-if="timelineItems.SUPPLIER_RECEIVED.available">
                                 <div class="cd-timeline-img">
                                     <div class="kameleon-icon with-round-bg primary">
                                         <img ng-src="{{::( 'Checklist' | kameleonImg )}}">
@@ -147,15 +146,47 @@
                                 </div>
                     
                                 <div class="cd-timeline-content primary">
-                                    <h5>Title of section 3</h5>
-                    
-                                    <p>Phasellus auctor tellus eget lacinia condimentum. Cum sociis natoque penatibus et magnis dis parturient montes.
-                                    </p>
-                                    <span class="cd-date">Feb 18</span>
-                                </div>
+                                        <h5>SUPPLIER RECEIVED</h5>
+                                        <hr>
+                                        <p>Received By: {{ timelineItems.SUPPLIER_RECEIVED.receivedBy }}</p>
+                                        <p>Received From: {{ timelineItems.SUPPLIER_RECEIVED.receivedFrom }}</p>
+                                        <p>Received On: {{ timelineItems.SUPPLIER_RECEIVED.receivedOn | date }}</p>
+                                    </div>
                             </div>
+
+                            <div class="cd-timeline-block" ng-if="timelineItems.RETAILER_DISPATCHED.available">
+                                    <div class="cd-timeline-img">
+                                        <div class="kameleon-icon with-round-bg danger">
+                                            <img ng-src="{{::( 'Laptop-Signal' | kameleonImg )}}">
+                                        </div>
+                                    </div>
+    
+                                    <div class="cd-timeline-content danger">
+                                        <h5>RETAILER DISPATCHED</h5>
+                                        <hr>
+                                        <p>Dispatched By: {{ timelineItems.RETAILER_DISPATCHED.dispatchedBy }}</p>
+                                        <p>Dispatched To: {{ timelineItems.RETAILER_DISPATCHED.dispatchedTo }}</p>
+                                        <p>Dispatched On: {{ timelineItems.RETAILER_DISPATCHED.dispatchedOn | date }}</p>
+                                    </div>
+                                </div>
+    
+                                <div class="cd-timeline-block" ng-if="timelineItems.RETAILER_RECEIVED.available">
+                                    <div class="cd-timeline-img">
+                                        <div class="kameleon-icon with-round-bg primary">
+                                            <img ng-src="{{::( 'Checklist' | kameleonImg )}}">
+                                        </div>
+                                    </div>
+                        
+                                    <div class="cd-timeline-content primary">
+                                            <h5>RETAILER RECEIVED</h5>
+                                            <hr>
+                                            <p>Received By: {{ timelineItems.RETAILER_RECEIVED.receivedBy }}</p>
+                                            <p>Received From: {{ timelineItems.RETAILER_RECEIVED.receivedFrom }}</p>
+                                            <p>Received On: {{ timelineItems.RETAILER_RECEIVED.receivedOn | date: 'MM-dd-yyyy AT h:mma' }}</p>
+                                        </div>
+                                </div>
                     
-                            <div class="cd-timeline-block">
+                            <!-- <div class="cd-timeline-block">
                                 <div class="cd-timeline-img">
                                     <div class="kameleon-icon with-round-bg warning">
                                         <img ng-src="{{::( 'Boss-3' | kameleonImg )}}">
@@ -216,7 +247,7 @@
                                         scelerisque sed, euismod id eros.</p>
                                     <span class="cd-date">Feb 24</span>
                                 </div>
-                            </div>
+                            </div> -->
                         </section>
                     </div>
                 </uib-tab>
