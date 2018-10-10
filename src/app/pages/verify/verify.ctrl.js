@@ -12,6 +12,7 @@
             afyaAlert.error(err);
         }
         var userType = Cookies.get('type')
+
         $scope.isSupplier = userType == 'SUPPLIER';
 
         var token = Cookies.get('afyatoken');
@@ -19,11 +20,17 @@
         $scope.currentUser = 'org.afyachain.ChainParticipant#' + email;
 
         var verifiedBatchFilter = '{"where":{"owner":"resource:{0}"}}'.format($scope.currentUser);
+        if(userType == 'SUPPLIER') {
+            verifiedBatchFilter = '{"where":{"supplierOwner":"resource:{0}"}}'.format($scope.currentUser);
+        } else if(userType == 'RETAILER') {
+            verifiedBatchFilter = '{"where":{"retailerOwner":"resource:{0}"}}'.format($scope.currentUser);
+        }
+
         batchSvc.list(verifiedBatchFilter)
             .then(function (data) {
                 $scope.batches = data.data;
             }).catch(errorHandler);
-
+        console.log($scope.batches)
         $scope.batchCode = {
             verifiedOn: new Date(),
             user: $scope.currentUser
@@ -133,7 +140,63 @@
         }).catch(function (err) {
             afyaAlert.error(err);
         })
+        };
+
+        // TIMELINE batch
+        var payload = {
+            batch: 'resource:org.afyachain.Batch#{0}'.format(batchCode)
         }
+        batchSvc.getActivities(payload)
+            .then(function (data) {
+                var items = data.data;
+                $scope.timelineItems = {};
+
+                items.forEach(function (item) {
+                    if (item.logType == 'PRODUCED') {
+                        var timelineObject = {
+                            available: true,
+                            producedBy: item.fromName,
+                            producedOn: item.occurredOn
+                        };
+                        $scope.timelineItems.PRODUCED = timelineObject
+                    } else if (item.logType == 'SUPPLIER_DISPATCHED') {
+                        var timelineObject = {
+                            available: true,
+                            dispatchedBy: item.fromName,
+                            dispatchedTo: item.toName,
+                            dispatchedOn: item.occurredOn
+                        };
+                        $scope.timelineItems.SUPPLIER_DISPATCHED = timelineObject;
+                    } else if (item.logType == 'SUPPLIER_RECEIVED') {
+                        var timelineObject = {
+                            available: true,
+                            receivedBy: item.toName,
+                            receivedFrom: item.fromName,
+                            receivedOn: item.occurredOn
+                        };
+                        $scope.timelineItems.SUPPLIER_RECEIVED = timelineObject;
+                    } else if (item.logType == 'RETAILER_DISPATCHED') {
+                        var timelineObject = {
+                            available: true,
+                            dispatchedBy: item.fromName,
+                            dispatchedTo: item.toName,
+                            dispatchedOn: item.occurredOn
+                        };
+                        $scope.timelineItems.RETAILER_DISPATCHED = timelineObject;
+                    } else if (item.logType == 'RETAILER_RECEIVED') {
+                        var timelineObject = {
+                            available: true,
+                            receivedBy: item.toName,
+                            receivedFrom: item.fromName,
+                            receivedOn: item.occurredOn
+                        };
+                        $scope.timelineItems.RETAILER_RECEIVED = timelineObject;
+                    }
+                });
+                console.log('ddddd ', $scope.timelineItems);
+            }).catch(function (err) {
+                afyaAlert.error(err);
+            });
     }
 }
 )();

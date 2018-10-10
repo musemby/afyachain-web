@@ -28,14 +28,17 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-md-12" ba-panel ba-panel-title="Received Units" ba-panel-class="with-scroll">
-        <table ng-hide="showBatchCreate" class="table table-bordered table-hover table-condensed">
+<uib-tabset active="$tabSetStatus.activeTab">
+    <uib-tab heading="Units">
+        <!-- <div class="class="p-r-0""> -->
+        <table class="table table-bordered table-hover table-condensed">
             <tr>
                 <td></td>
                 <td>Code</td>
                 <td>Status</td>
-                <td>Actions</td>
+                <td>Sold</td>
+                <td>Created On</td>
+                <!-- <td>Actions</td> -->
             </tr>
             <tr ng-repeat="unit in units" class="editable-row">
                 <td>
@@ -44,15 +47,101 @@
                 <td>
                     <span>{{ unit.code }}</span>
                 </td>
-                <td>
-                    <span class="label label-success">{{ unit.status }}</span>
+                <td class="select-td">
+                    <span class="label label-primary">{{ unit.status }}</span>
                 </td>
-                <td>
-                    <div class="buttons" ng-show="!rowform.$visible">
-                        <button class="btn btn-primary editable-table-button btn-xs" ng-click=goVerifyUnits(batch.code)>View</button>
-                    </div>
+                <td class="select-td">
+                    <span>{{ unit.sold }}</span>
+                </td>
+                <td class="select-td">
+                    <span>{{ unit.created }}</span>
                 </td>
             </tr>
         </table>
-    </div>
-</div>
+        <!-- </div> -->
+    </uib-tab>
+    <uib-tab heading="Track & Trace">
+        <div ba-panel ng-controller="BlurAdmin.pages.inventorySetup.controllers.brands">
+            <section id="cd-timeline" class="cd-container cssanimations">
+                <div class="cd-timeline-block" ng-if="timelineItems.PRODUCED.available">
+                    <div class="cd-timeline-img">
+                        <div class="kameleon-icon with-round-bg warning">
+                            <img ng-src="{{::( 'Shop' | kameleonImg )}}">
+                        </div>
+                    </div>
+
+                    <div class="cd-timeline-content success">
+                        <h5>MANUFACTURED</h5>
+                        <hr>
+                        <p>By: {{ timelineItems.PRODUCED.producedBy }}</p>
+                        <p>On: {{ timelineItems.PRODUCED.producedOn | date}}</p>
+                    </div>
+                </div>
+
+                <div class="cd-timeline-block" ng-if="timelineItems.SUPPLIER_DISPATCHED.available">
+                    <div class="cd-timeline-img">
+                        <div class="kameleon-icon with-round-bg danger">
+                            <img ng-src="{{::( 'Laptop-Signal' | kameleonImg )}}">
+                        </div>
+                    </div>
+
+                    <div class="cd-timeline-content danger">
+                        <h5>SUPPLIER DISPATCHED</h5>
+                        <hr>
+                        <p>Dispatched By: {{ timelineItems.SUPPLIER_DISPATCHED.dispatchedBy }}</p>
+                        <p>Dispatched To: {{ timelineItems.SUPPLIER_DISPATCHED.dispatchedTo }}</p>
+                        <p>Dispatched On: {{ timelineItems.SUPPLIER_DISPATCHED.dispatchedOn | date }}</p>
+                    </div>
+                </div>
+
+                <div class="cd-timeline-block" ng-if="timelineItems.SUPPLIER_RECEIVED.available">
+                    <div class="cd-timeline-img">
+                        <div class="kameleon-icon with-round-bg primary">
+                            <img ng-src="{{::( 'Checklist' | kameleonImg )}}">
+                        </div>
+                    </div>
+
+                    <div class="cd-timeline-content primary">
+                        <h5>SUPPLIER RECEIVED</h5>
+                        <hr>
+                        <p>Received By: {{ timelineItems.SUPPLIER_RECEIVED.receivedBy }}</p>
+                        <p>Received From: {{ timelineItems.SUPPLIER_RECEIVED.receivedFrom }}</p>
+                        <p>Received On: {{ timelineItems.SUPPLIER_RECEIVED.receivedOn | date }}</p>
+                    </div>
+                </div>
+
+                <div class="cd-timeline-block" ng-if="timelineItems.RETAILER_DISPATCHED.available">
+                    <div class="cd-timeline-img">
+                        <div class="kameleon-icon with-round-bg danger">
+                            <img ng-src="{{::( 'Laptop-Signal' | kameleonImg )}}">
+                        </div>
+                    </div>
+
+                    <div class="cd-timeline-content danger">
+                        <h5>RETAILER DISPATCHED</h5>
+                        <hr>
+                        <p>Dispatched By: {{ timelineItems.RETAILER_DISPATCHED.dispatchedBy }}</p>
+                        <p>Dispatched To: {{ timelineItems.RETAILER_DISPATCHED.dispatchedTo }}</p>
+                        <p>Dispatched On: {{ timelineItems.RETAILER_DISPATCHED.dispatchedOn | date }}</p>
+                    </div>
+                </div>
+
+                <div class="cd-timeline-block" ng-if="timelineItems.RETAILER_RECEIVED.available">
+                    <div class="cd-timeline-img">
+                        <div class="kameleon-icon with-round-bg primary">
+                            <img ng-src="{{::( 'Checklist' | kameleonImg )}}">
+                        </div>
+                    </div>
+
+                    <div class="cd-timeline-content primary">
+                        <h5>RETAILER RECEIVED</h5>
+                        <hr>
+                        <p>Received By: {{ timelineItems.RETAILER_RECEIVED.receivedBy }}</p>
+                        <p>Received From: {{ timelineItems.RETAILER_RECEIVED.receivedFrom }}</p>
+                        <p>Received On: {{ timelineItems.RETAILER_RECEIVED.receivedOn | date: 'MM-dd-yyyy AT h:mma' }}</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </uib-tab>
+</uib-tabset>
