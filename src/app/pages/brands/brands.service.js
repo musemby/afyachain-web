@@ -31,6 +31,7 @@
         var urlVerifyBatch = "http://localhost:4000/api/VerifyBatch";
         var urlPrintLabels = "http://localhost:4000/api/PrintLabels";
         var urlGetActivities = "http://localhost:4000/api/GetActivities";
+        var urlFileReport = "http://localhost:4000/api/fileErrorReport"
 
         self.list = function (filters) {
             return $q(
@@ -128,6 +129,30 @@
                     });
                 })
             };
+        self.fileErrorReport = function (payload) {
+            return $q(
+                function (resolve, reject) {
+                    $http.post(urlFileReport, payload)
+                    .then(function (data) {
+                        resolve(data);
+                    }).catch(function (err) {
+                        reject(err)
+                    })
+                }
+            )
+        };
+
+        self.getErrorReports = function (filters) {
+            return $q(
+                function (resolve, reject) {
+                    $http.get(urlFileReport + "?filter=" + encodeURIComponent(filters))
+                        .then(function (data) {
+                            resolve(data);
+                        }).catch(function (err) {
+                            reject(err);
+                        });
+                })
+        }
     }
 
     function UnitService($http, $q) {

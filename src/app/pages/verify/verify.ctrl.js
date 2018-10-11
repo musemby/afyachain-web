@@ -1,23 +1,73 @@
 (function () {
     'use strict';
-
+    
     angular.module('BlurAdmin.pages.verify')
-        .controller('VerifyBatchCtrl', ["$scope", "$state", "BatchService", 'UnitService', "afyaAlert", VerifyBatchCtrl])
-        .controller('VerifyUnitCtrl', ["$scope", "$state", "BatchService",
-            'UnitService', 'ParticipantsService', "afyaAlert", "$uibModal", VerifyUnitCtrl]);
-        
-
-    function VerifyBatchCtrl($scope, $state, batchSvc, unitSvc, afyaAlert) {
-        function errorHandler(err) {
-            afyaAlert.error(err);
-        }
-        var userType = Cookies.get('type')
-
-        $scope.isSupplier = userType == 'SUPPLIER';
-
+    .controller('VerifyBatchCtrl', ["$rootScope", "$scope", "$state", "BatchService", 'UnitService', 'ParticipantsService', "afyaAlert", "$uibModal", VerifyBatchCtrl])
+    .controller('VerifyUnitCtrl', ["$scope", "$state", "BatchService",
+    'UnitService', 'ParticipantsService', "afyaAlert", "$uibModal", VerifyUnitCtrl])
+        .controller("ErrorReportsCtrl", ["$scope", "BatchService", "afyaAlert", ErrorReportsCtrl]);
+    
+    function ErrorReportsCtrl($scope, batchSvc, afyaAlert) {
+        var token = Cookies.get('afyatoken');
+        var email = atob(token);
+        var errorFilter = '{"where":{"recipient":"resource:org.afyachain.ChainParticipant#{0}"}}'.format(email);
+        batchSvc.getErrorReports(errorFilter)
+        .then(function (data) {
+            $scope.errorReports = data.data;
+            console.log(data.data);
+        }).catch(function (err) {
+            afyaAlert.error(err)
+        })
+    }
+    
+    function VerifyBatchCtrl($rootScope, $scope, $state, batchSvc, unitSvc, participantSvc, afyaAlert, $uibModal) {
         var token = Cookies.get('afyatoken');
         var email = atob(token);
         $scope.currentUser = 'org.afyachain.ChainParticipant#' + email;
+        $scope.anomallyData = {};
+        $scope.reportMode = false;
+        $scope.toggleReportMode = function () {
+            $scope.reportMode = !$scope.reportMode;
+        };
+        function errorHandler(err) {
+            var msg = err.data.error.message;
+            var splitList = msg.split('Error: ');
+            if (splitList.length > 1) {
+                msg = splitList[splitList.length - 1];
+            }
+            afyaAlert.error(err);
+            $scope.failureMessage = msg;
+            var expired = "This batch is already expired";
+            var notDispatched = "The batch has to have been dispatched before it can be verified";
+            var notDispatchedToUser = "This batch has not been dispatched to this user yet";
+            var notDispatchedPartOfBatch = "This unit was not dispatched as part of this batch";
+            var wrongStatus = "This batch has must be in SUPPLIER_DISPATCHED state before it can be received";
+            if (msg == expired || msg == notDispatched || msg == notDispatchedPartOfBatch || msg == wrongStatus || msg == notDispatchedToUser) {
+                var batch = 'resource:org.afyachain.Batch#{0}'.format($scope.batchCode.code);
+                $scope.anomallyData.batch = batch;
+                $scope.anomallyData.error = msg;
+
+                $scope.showReportBtn = true;
+            }
+            console.log($scope.anomallyData);
+            $scope.sendReport = function () {
+                console.log($scope.anomallyData)
+                $scope.anomallyData.occurredOn = new Date();
+                $scope.anomallyData.recipient = "resource:org.afyachain.ChainParticipant#{0}".format($scope.anomallyData.recipient.email);
+                $scope.anomallyData.sender = $scope.currentUser;
+                console.log($scope.anomallyData)
+                batchSvc.fileErrorReport($scope.anomallyData)
+                .then(function (data) {
+                    afyaAlert.success("The report has been successfully sent");
+                }).catch(function (err) {
+                    afyaAlert.error(err)
+                })
+            }
+        }
+
+        var userType = Cookies.get('type')
+        $scope.isSupplier = userType == 'SUPPLIER';
+
 
         var verifiedBatchFilter = '{"where":{"owner":"resource:{0}"}}'.format($scope.currentUser);
         if(userType == 'SUPPLIER') {
@@ -30,7 +80,6 @@
             .then(function (data) {
                 $scope.batches = data.data;
             }).catch(errorHandler);
-        console.log($scope.batches)
         $scope.batchCode = {
             verifiedOn: new Date(),
             user: $scope.currentUser
@@ -45,7 +94,27 @@
 
         $scope.goVerifyUnits = function (batchCode) {
             $state.go('verify.listBrands.units', { batchCode: batchCode });
-        }
+        };
+
+        // report anomally stuff
+        participantSvc.list()
+            .then(function (data) {
+                $scope.recipientsList = data.data;
+            }).catch(function (err) {
+                afyaAlert.error(err);
+            }); 
+        $scope.open = function (page, size) {
+            $uibModal.open({
+                animation: true,
+                templateUrl: page,
+                size: size,
+                resolve: {
+                    items: function () {
+                        return $scope.items;
+                    }
+                }
+            });
+        };
     }
 
 

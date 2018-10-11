@@ -1,6 +1,13 @@
 <div class="row">
-    <div class="col-md-12" ba-panel ba-panel-title="Scan or Type the Batch Code Below" ba-panel-class="with-scroll">
-            <form class="row form-inline">
+    <div class="col-md-12" ba-panel ba-panel-class="with-scroll">
+        <div class="panel-content">
+            <h3 ng-hide="reportMode" class="with-line pt-0">SCAN OR TYPE THE BATCH CODE BELOW TO VERIFY
+                <button ng-if="showReportBtn" ng-click="toggleReportMode()" class="btn btn-danger pull-right">Report Anomally</button>
+            </h3>
+            <h3 ng-if="reportMode" class="with-line pt-0">PLEASE FILL IN THE DETAILS BELOW TO FILE A REPORT
+                <button ng-if="showReportBtn" ng-click="toggleReportMode()" class="btn btn-default pull-right">Dismiss</button>
+            </h3>
+            <form ng-hide="reportMode" class="row form-inline">
                 <div class="form-group col-xs-8">
                     <input type="text" ng-model="batchCode.code" class="form-control" id="code">
                 </div>
@@ -8,10 +15,46 @@
                     <button ng-click="verifyCode()" class="btn btn-primary">Verify and Receive Batch</button>
                 </div>
             </form>
+            <div ng-show="reportMode" ba-panel ba-panel-class="profile-page">
+            <div ng-show="reportMode" class="panel-content">
+                <form class="row" ng-show="reportMode">
+                    <div class="form-group">
+                        <label for="participant">Recipient</label>
+                        <ui-select ng-model="anomallyData.recipient" class="btn-group bootstrap-select form-control" ng-disabled="false"
+                            append-to-body="false" search-enabled="false">
+                            <ui-select-match placeholder="Owner">
+                                <span> {{$select.selected.name }}</span>
+                            </ui-select-match>
+                            <ui-select-choices repeat="recipient in recipientsList | filter: $select.search">
+                                <span ng-bind-html="recipient.name"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <div class="form-group">
+                        <label for="batch">Batch Number</label>
+                        <input class="form-control" type="text" id="batch" ng-model="anomallyData.batch">
+                    </div>
+                    <div class="form-group">
+                        <label for="error">Error</label>
+                        <input class="form-control" type="text" id="error" ng-model="anomallyData.error ">
+                    </div>
+                    <div class="form-group">
+                        <label for="info">Additional Information</label>
+                        <textarea id="info" class="form-control" ng-model=anomallyData.info cols="30" rows="10"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" ng-click="sendReport();$dismiss()">Send Report</button>
+                    </div>
+                </form>
+            </div>
+            </div>
+    </div>
     </div>
 </div>
 
-<div ba-panel ba-panel-title="Received Batches" ba-panel-class="with-scroll">
+<div ba-panel ba-panel-class="profile-page">
+<div class="panel-content">
+    <h3 class="with-line pt-0">Received Batches</h3>
     <table class="table table-bordered table-hover table-condensed">
         <tr>
             <td></td>
@@ -43,7 +86,7 @@
                 <span class="label label-success">{{ batch.status }}</span>
             </td>
             <td>
-                <span>{{ batch.created }}</span>
+                <span>{{ batch.created | date }}</span>
             </td>
             <td>
                 <div class="buttons" ng-show="!rowform.$visible">
@@ -52,4 +95,5 @@
             </td>
         </tr>
     </table>
+</div>
 </div>

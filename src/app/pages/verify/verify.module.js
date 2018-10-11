@@ -45,6 +45,15 @@
                         controller: 'VerifyUnitCtrl',
                     }
                 }
-            });
+            })
+            .state('verify.errorReports', {
+                url: '/errorReports',
+                views: {
+                    "content@": {
+                        templateUrl: "app/pages/verify/tpls/errorReports.html",
+                        controller: "ErrorReportsCtrl"
+                    }
+                }
+            })
     }
 })();
