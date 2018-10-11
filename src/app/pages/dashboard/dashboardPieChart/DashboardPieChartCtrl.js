@@ -9,30 +9,104 @@
       .controller('DashboardPieChartCtrl', DashboardPieChartCtrl);
 
   /** @ngInject */
-  function DashboardPieChartCtrl($scope, $timeout, baConfig, baUtil) {
+  function DashboardPieChartCtrl($scope, $http, afyaAlert, $timeout, baConfig, baUtil) {
     var pieColor = baUtil.hexToRGB(baConfig.colors.defaultText, 0.2);
-    $scope.charts = [{
-      color: pieColor,
-      description: 'New Visits',
-      stats: '57,820',
-      icon: 'person',
-    }, {
-      color: pieColor,
-      description: 'Purchases',
-      stats: '$ 89,745',
-      icon: 'money',
-    }, {
-      color: pieColor,
-      description: 'Active Users',
-      stats: '178,391',
-      icon: 'face',
-    }, {
-      color: pieColor,
-      description: 'Returned',
-      stats: '32,592',
-      icon: 'refresh',
+
+    var type = Cookies.get('type');
+    var email = Cookies.get('email');
+    var currentUser = 'resource:' + 'org.afyachain.ChainParticipant#' + email;
+    if (type == "MANUFACTURER") {
+      var url = "http://localhost:4000/api/manufacturerDashboardReport";
+      var data = { "manufacturerOwner": currentUser };
+      $http.post(url, data)
+        .then(function (data) {
+          $scope.dashboardData = data.data;
+          $scope.charts = [{
+            color: pieColor,
+            description: 'Batches Produced',
+            stats: $scope.dashboardData.batchesProduced,
+          },
+          {
+            color: pieColor,
+            description: 'Batches Received By Suppliers',
+            stats: $scope.dashboardData.supplierReceivedBatches,
+            icon: 'face',
+          },
+          {
+            color: pieColor,
+            description: 'Batches Received By Retailers',
+            stats: $scope.dashboardData.retailerReceivedBatches,
+          },
+          {
+            color: pieColor,
+            description: 'Reported Errors',
+            stats: $scope.dashboardData.batchesFailed,
+            icon: 'refresh',
+          }
+          ];
+        }).catch(function (err) {
+          afyaAlert.error(err)
+        })
+    } else if (type == "SUPPLIER") {
+      var url = "http://localhost:4000/api/supplierDashboardReport";
+      var data = { "supplierOwner": currentUser };
+      $http.post(url, data)
+        .then(function (data) {
+          $scope.dashboardData = data.data;
+          $scope.charts = [{
+            color: pieColor,
+            description: 'Batches Encountered',
+            stats: $scope.dashboardData.batchesEncountered,
+          },
+          {
+            color: pieColor,
+            description: 'Batches Enroute',
+            stats: $scope.dashboardData.batchesEnroute,
+            icon: 'face',
+          },
+          {
+            color: pieColor,
+            description: 'Dispatched to Retailers',
+            stats: $scope.dashboardData.dispatchedToRetailers,
+          },
+          {
+            color: pieColor,
+            description: 'Batches in Possession',
+            stats: $scope.dashboardData.batchesInPossession,
+            icon: 'refresh',
+          }
+          ];
+        }).catch(function (err) {
+          afyaAlert.error(err)
+        })
+    } else if (type == "RETAILER") {
+      var url = "http://localhost:4000/api/retailerDashboardReport";
+      var data = { "retailerOwner": currentUser };
+      $http.post(url, data)
+        .then(function (data) {
+          $scope.dashboardData = data.data;
+          $scope.charts = [{
+            color: pieColor,
+            description: 'Batches Encountered',
+            stats: $scope.dashboardData.batchesEncountered,
+          },
+          {
+            color: pieColor,
+            description: 'Batches Enroute',
+            stats: $scope.dashboardData.batchesEnroute,
+            icon: 'face',
+          },
+          {
+            color: pieColor,
+            description: 'Batches in Possession',
+            stats: $scope.dashboardData.batchesInPossession,
+            icon: 'refresh',
+          }
+          ];
+        }).catch(function (err) {
+          afyaAlert.error(err)
+        })
     }
-    ];
 
     function getRandomArbitrary(min, max) {
       return Math.random() * (max - min) + min;

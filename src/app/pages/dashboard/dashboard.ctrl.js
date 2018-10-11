@@ -3,19 +3,21 @@
     'use strict';
         
     angular.module('BlurAdmin.pages.dashboard')
-        .controller('DashboardCtrl', ['$rootScope', '$scope', '$state', '$location', 'ParticipantsService', DashboardCtrl]);
+        .controller('DashboardCtrl', ['$rootScope', '$scope', '$http', 'afyaAlert', DashboardCtrl]);
         
-    function DashboardCtrl($rootScope, $scope, $state, $location, patSvc) {
-        // var token = $state.params.token;
-        // if(token) {
-        //     Cookies.set('afyatoken', token);
-        // }
-        // var email = atob(token || Cookies.get('afyatoken'));
-        // patSvc.get(email)
-        // .then(function (data) {
-        //     $rootScope.user = data.data;
-        // }).catch(function (err) {
-        //     console.log(err);
-        // })
+    function DashboardCtrl($rootScope, $scope, $http, afyaAlert) {
+        var type = Cookies.get('type');
+        var email = Cookies.get('email');
+        var currentUser = 'resource:' + 'org.afyachain.ChainParticipant#' + email;
+        if(type == "MANUFACTURER") {
+            var url = "http://localhost:4000/api/manufacturerDashboardReport";
+            var data = { "manufacturerOwner": currentUser };
+            $http.post(url, data)
+            .then(function (data) {
+                $scope.dashboardData = data.data;
+            }).catch(function (err) {
+                afyaAlert.error(err)
+            })
+        }
     }
 })();
