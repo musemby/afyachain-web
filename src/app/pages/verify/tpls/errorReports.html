@@ -1,0 +1,44 @@
+<div ba-panel ba-panel-class="profile-page">
+    <div class="panel-content">
+        <h3 class="with-line pt-0">Received Error Reports</h3>
+        <table class="table table-bordered table-hover table-condensed">
+            <tr>
+                <td></td>
+                <td>From</td>
+                <td>Date</td>
+                <td>Batch</td>
+                <td>Unit</td>
+                <td>Error</td>
+                <td>Info</td>
+            </tr>
+            <tr ng-repeat="error in errorReports" class="editable-row">
+                <td>
+                    {{$index + 1}}
+                </td>
+                <td>
+                    <span>{{ error.sender }}</span>
+                </td>
+                <td class="select-td">
+                    <span>{{ error.occurredOn | date }}</span>
+                </td>
+                <td class="select-td">
+                    <span>{{ error.batch}}</span>
+                </td>
+                <td>
+                    <span>{{ error.unit }}</span>
+                </td>
+                <td>
+                    <span>{{ error.error }}</span>
+                </td>
+                <td>
+                    <span>{{ error.info }}</span>
+                </td>
+                <!-- <td>
+                    <div class="buttons" ng-show="!rowform.$visible">
+                        <button class="btn btn-primary editable-table-button btn-xs" ng-click=goVerifyUnits(batch.code)>View</button>
+                    </div>
+                </td> -->
+            </tr>
+        </table>
+    </div>
+</div>

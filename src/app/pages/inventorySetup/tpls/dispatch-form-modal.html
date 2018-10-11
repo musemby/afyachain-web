@@ -10,18 +10,20 @@
             <div class="form-group">
                 <label for="participant">Recipient</label>
                 <ui-select ng-model="dispatchBatchData.owner" class="btn-group bootstrap-select form-control" ng-disabled="false" append-to-body="false"
-                    search-enabled="false">
-                    <ui-select-match placeholder="Owner">
-                        <span> {{$select.selected.name || dispatchBatchData.owner }}</span>
-                    </ui-select-match>
-                    <ui-select-choices repeat="recipient in recipientsList | filter: $select.search">
-                        <span ng-bind-html="recipient.name"></span>
-                    </ui-select-choices>
-                </ui-select>
-            </div>
-        </form>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-primary" ng-click="dispatchBatch();$dismiss()">Dispatch Batch</button>
-    </div>
+                search-enabled="false">
+                <ui-select-match placeholder="Owner">
+                    <span> {{$select.selected.name || dispatchBatchData.owner }}</span>
+                </ui-select-match>
+                <ui-select-choices repeat="recipient in recipientsList | filter: $select.search">
+                    <span ng-bind-html="recipient.name"></span>
+                </ui-select-choices>
+            </ui-select>
+        </div>
+    </form>
+    <p>Are you sure you want to dispatch this batch?</p>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-success pull-left" ng-click="$dismiss();dispatchBatch()">Yes</button>
+    <button type="button" class="btn btn-danger pull-right" ng-click="$dismiss()">No</button>
+</div>
 </div>
